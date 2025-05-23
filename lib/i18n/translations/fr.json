@@ -1,0 +1,431 @@
+{
+  "meta": {
+    "homeTitle": "Cabinet de Radiologie Dr. Benameur - Oran",
+    "loginTitle": "Connexion Espace Médecins - Dr. Benameur",
+    "dashboardTitle": "Tableau de bord - Espace Médecins"
+  },
+  "header": {
+    "cabinet": "Cabinet de Radiologie",
+    "centerName": "Centre Nelson Mandela"
+  },
+  "nav": {
+    "home": "Accueil",
+    "about": "À Propos",
+    "services": "Services",
+    "appointment": "Rendez-vous",
+    "news": "Actualités",
+    "contact": "Contact",
+    "doctorPortal": "Espace Médecins"
+  },
+  "hero": {
+    "title": "Imagerie Médicale <span class='text-primary'>de Pointe</span> à Oran",
+    "description": "Le Cabinet de Radiologie du Dr. Benameur vous offre des services d'imagerie médicale de haute qualité avec des équipements dernière génération et une équipe médicale expérimentée.",
+    "buttons": {
+      "appointment": "Prendre Rendez-vous",
+      "services": "Découvrir nos Services"
+    },
+    "features": {
+      "expertise": "Expertise Certifiée",
+      "technology": "Technologie Avancée",
+      "team": "Équipe Spécialisée"
+    },
+    "imageAlt": "Salle d'imagerie médicale moderne avec IRM"
+  },
+  "about": {
+    "title": "À Propos du <span class='text-primary'>Dr. Benameur</span>",
+    "subtitle": "Une expertise médicale et radiologique de premier plan au service des patients et des professionnels de santé à Oran.",
+    "imageAlt": "Dr. Benameur examinant des images médicales",
+    "career": {
+      "title": "Parcours Professionnel",
+      "description": "Le Dr. Benameur est un radiologue expérimenté avec plus de 20 ans de pratique dans le domaine de l'imagerie médicale diagnostique et interventionnelle. Diplômé de la Faculté de Médecine d'Alger, il a complété sa spécialisation en radiologie à Paris."
+    },
+    "education": {
+      "title": "Formations et Spécialisations",
+      "education1": "Doctorat en Médecine, Université d'Alger",
+      "education2": "Spécialisation en Radiologie Diagnostique et Interventionnelle",
+      "education3": "Formation avancée en IRM et Scanner multibarrettes",
+      "education4": "Expertise en Imagerie Ostéo-articulaire et Neurologique"
+    },
+    "affiliations": {
+      "title": "Engagements et Affiliations",
+      "description": "Le Dr. Benameur est membre actif de la Société Algérienne de Radiologie et de la Société Française de Radiologie. Il participe régulièrement à des congrès internationaux pour rester à la pointe des avancées technologiques en imagerie médicale."
+    },
+    "specialties": {
+      "specialty1": "Radiologie Diagnostique",
+      "specialty2": "Neuroradiologie",
+      "specialty3": "Imagerie Ostéo-articulaire",
+      "specialty4": "Radiologie Interventionnelle"
+    },
+    "stats": {
+      "years": {
+        "title": "Années d'Expérience",
+        "description": "Une expertise approfondie au service de votre santé."
+      },
+      "patients": {
+        "title": "Patients Traités",
+        "description": "Une confiance établie auprès des patients d'Oran."
+      },
+      "equipment": {
+        "title": "Équipement Moderne",
+        "description": "Technologies de pointe pour des diagnostics précis."
+      }
+    }
+  },
+  "services": {
+    "title": "Nos <span class='text-primary'>Services</span>",
+    "subtitle": "Le Cabinet de Radiologie du Dr. Benameur propose une gamme complète d'examens d'imagerie médicale réalisés avec des équipements de dernière génération.",
+    "categories": {
+      "all": "Tous les Services",
+      "diagnostic": "Examens Diagnostiques",
+      "specialized": "Examens Spécialisés",
+      "interventional": "Radiologie Interventionnelle"
+    },
+    "equipment": "Équipement utilisé",
+    "appointment": "Prendre rendez-vous",
+    "appointmentButton": "Prendre rendez-vous pour un examen",
+    "imageAlt": "équipement médical",
+    "items": {
+      "irm": {
+        "title": "IRM",
+        "description": "L'Imagerie par Résonance Magnétique permet d'obtenir des images précises des organes et tissus mous sans radiation. Idéale pour l'exploration du cerveau, de la colonne vertébrale et des articulations.",
+        "equipment": "IRM 3 Tesla de dernière génération offrant une qualité d'image exceptionnelle et un temps d'examen réduit."
+      },
+      "scanner": {
+        "title": "Scanner (TDM)",
+        "description": "Le scanner permet d'obtenir des images en coupes de l'organisme avec une excellente résolution. Particulièrement adapté pour l'exploration du thorax, de l'abdomen et du pelvis.",
+        "equipment": "Scanner multibarrettes 128 coupes permettant des acquisitions rapides et une reconstruction 3D de haute précision."
+      },
+      "ultrasound": {
+        "title": "Échographie",
+        "description": "L'échographie utilise les ultrasons pour visualiser les organes internes. Non invasive et sans radiation, elle est idéale pour l'examen des tissus mous, des vaisseaux et le suivi de grossesse.",
+        "equipment": "Échographes haute définition avec modules Doppler couleur et sondes spécifiques pour chaque région anatomique."
+      },
+      "radiography": {
+        "title": "Radiographie",
+        "description": "La radiographie standard permet d'obtenir des images du squelette et du thorax. Elle est utilisée pour diagnostiquer les fractures, les pathologies pulmonaires et certaines maladies osseuses.",
+        "equipment": "Système de radiographie numérique DR (Digital Radiography) permettant une acquisition instantanée et une faible dose d'irradiation."
+      },
+      "mammography": {
+        "title": "Mammographie",
+        "description": "La mammographie est un examen radiologique dédié à l'étude du sein. Elle est essentielle pour le dépistage précoce du cancer du sein et l'exploration des anomalies mammaires.",
+        "equipment": "Mammographe numérique avec tomosynthèse permettant une visualisation en 3D et une détection améliorée des lésions."
+      },
+      "biopsy": {
+        "title": "Biopsie guidée par imagerie",
+        "description": "Cette technique permet de prélever des échantillons de tissus sous guidage échographique ou scanner pour analyse pathologique, offrant un diagnostic précis avec une intervention minimale.",
+        "equipment": "Systèmes de guidage de haute précision avec kits de biopsie stériles à usage unique pour une sécurité optimale."
+      }
+    }
+  },
+  "equipment": {
+    "title": "Notre <span class='text-primary'>Technologie</span>",
+    "subtitle": "Le Cabinet de Radiologie du Dr. Benameur investit constamment dans des équipements de pointe pour offrir les meilleurs soins diagnostiques possibles.",
+    "imageAlt": "Équipement médical moderne dans notre cabinet",
+    "items": {
+      "mri": {
+        "title": "IRM 3 Tesla",
+        "description": "Notre IRM à haut champ magnétique offre des images d'une précision exceptionnelle avec des temps d'examen réduits pour plus de confort."
+      },
+      "scanner": {
+        "title": "Scanner 128 barrettes",
+        "description": "Notre scanner multibarrettes permet des acquisitions ultra-rapides et des reconstructions 3D de haute définition avec une irradiation minimale."
+      },
+      "ultrasound": {
+        "title": "Échographie Doppler",
+        "description": "Nos appareils d'échographie haute résolution intègrent les technologies les plus récentes pour une imagerie précise des organes et vaisseaux."
+      }
+    },
+    "commitment": {
+      "title": "Notre Engagement Technologique",
+      "description": "Le Cabinet de Radiologie du Dr. Benameur s'engage à offrir une qualité d'imagerie optimale tout en respectant le principe ALARA (As Low As Reasonably Achievable) pour minimiser l'exposition aux radiations.",
+      "points": {
+        "point1": "Renouvellement régulier des équipements",
+        "point2": "Formation continue de l'équipe technique",
+        "point3": "Protocoles optimisés pour chaque type d'examen",
+        "point4": "Contrôle qualité régulier des équipements"
+      }
+    }
+  },
+  "appointment": {
+    "title": "Prendre <span class='text-primary'>Rendez-vous</span>",
+    "subtitle": "Planifiez votre examen radiologique facilement et rapidement avec notre système de prise de rendez-vous.",
+    "button": "Prendre Rendez-vous",
+    "form": {
+      "title": "Formulaire de Demande de Rendez-vous",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "phone": "Téléphone",
+      "email": "Email",
+      "examType": "Type d'examen",
+      "examSelect": "Sélectionnez un examen",
+      "date": "Date souhaitée",
+      "prescription": "Avez-vous une prescription médicale?",
+      "message": "Message ou informations supplémentaires",
+      "yes": "Oui",
+      "no": "Non",
+      "other": "Autre",
+      "required": "Champs obligatoires. Notre équipe vous contactera dans les 24h ouvrées pour confirmer votre rendez-vous.",
+      "submit": "Envoyer ma demande",
+      "submitting": "Envoi en cours..."
+    },
+    "practical": {
+      "title": "Informations Pratiques",
+      "address": {
+        "title": "Adresse",
+        "content": "123 Boulevard Mohammed V, Centre-ville, Oran, Algérie"
+      },
+      "phone": {
+        "title": "Téléphone",
+        "content": "+213 00 00 00 00"
+      },
+      "email": {
+        "title": "Email",
+        "content": "contact@cabinet-benameur.com"
+      },
+      "hours": {
+        "title": "Horaires d'ouverture",
+        "weekdays": "Lundi - Vendredi: 8h00 - 18h00",
+        "saturday": "Samedi: 8h00 - 13h00",
+        "sunday": "Dimanche: Fermé"
+      }
+    },
+    "location": {
+      "title": "Localisation",
+      "mapText": "Carte interactive du cabinet",
+      "mapNote": "(Google Maps serait intégré ici)",
+      "description": "Situé en plein centre-ville d'Oran, notre cabinet est facilement accessible en transports en commun et dispose d'un parking privé pour nos patients."
+    },
+    "success": {
+      "title": "Demande envoyée",
+      "message": "Votre demande de rendez-vous a été envoyée avec succès. Nous vous contacterons dans les plus brefs délais."
+    },
+    "error": {
+      "title": "Erreur",
+      "message": "Une erreur est survenue lors de l'envoi de votre demande. Veuillez réessayer ou nous contacter par téléphone."
+    }
+  },
+  "doctorPortal": {
+    "title": "Espace <span class='text-primary'>Médecins</span>",
+    "subtitle": "Un portail sécurisé dédié aux professionnels de santé pour accéder aux résultats d'examens de leurs patients.",
+    "collaboration": {
+      "title": "Collaboration Médicale",
+      "description": "Le Cabinet de Radiologie du Dr. Benameur met à disposition des médecins correspondants un accès sécurisé pour consulter les images et comptes-rendus de leurs patients."
+    },
+    "features": {
+      "feature1": {
+        "title": "Accès instantané aux résultats",
+        "description": "Consultez les examens radiologiques de vos patients dès leur validation."
+      },
+      "feature2": {
+        "title": "Visualisation des images médicales",
+        "description": "Accédez aux images haute résolution avec outils de visualisation avancés."
+      },
+      "feature3": {
+        "title": "Téléchargement des comptes-rendus",
+        "description": "Téléchargez les rapports au format PDF et les images au format DICOM."
+      },
+      "feature4": {
+        "title": "Communication sécurisée",
+        "description": "Échangez de manière confidentielle avec notre équipe radiologique."
+      }
+    },
+    "access": "Pour obtenir vos identifiants de connexion, veuillez contacter notre secrétariat médical avec vos coordonnées professionnelles.",
+    "requestAccess": "Demander un accès",
+    "login": {
+      "title": "Connexion Espace Médecins",
+      "email": "Email professionnel",
+      "password": "Mot de passe",
+      "remember": "Se souvenir de moi",
+      "forgot": "Mot de passe oublié?",
+      "submit": "Connexion",
+      "loggingIn": "Connexion en cours..."
+    },
+    "preview": {
+      "title": "Aperçu du portail médecin",
+      "system": "Système PACS sécurisé",
+      "online": "En ligne",
+      "description": "Notre système d'archivage et de communication d'images médicales vous permet d'accéder aux examens radiologiques depuis n'importe quel appareil.",
+      "demo": "Voir la démonstration"
+    }
+  },
+  "news": {
+    "title": "Actualités et <span class='text-primary'>Conseils Santé</span>",
+    "subtitle": "Restez informés des dernières actualités du cabinet et découvrez nos conseils pour prendre soin de votre santé.",
+    "readMore": "Lire la suite",
+    "healthTips": "Conseils Santé",
+    "learnMore": "En savoir plus",
+    "viewAll": "Voir toutes les actualités",
+    "noNews": "Aucune actualité n'est disponible pour le moment.",
+    "noTips": "Aucun conseil santé n'est disponible pour le moment."
+  },
+  "testimonials": {
+    "title": "Ce que disent <span class='text-primary'>Nos Patients</span>",
+    "subtitle": "Découvrez les témoignages de patients ayant bénéficié de nos services d'imagerie médicale.",
+    "testimonial1": {
+      "text": "J'étais très anxieuse à l'idée de passer une IRM, mais l'équipe du Dr. Benameur a été exceptionnelle. Ils ont pris le temps de m'expliquer la procédure et ont fait preuve d'une grande gentillesse. L'examen s'est déroulé dans d'excellentes conditions.",
+      "name": "Sarah B.",
+      "role": "Patiente IRM"
+    },
+    "testimonial2": {
+      "text": "En tant que médecin, j'apprécie particulièrement la qualité des images et la précision des comptes-rendus fournis par le cabinet du Dr. Benameur. Le portail médecin est également très pratique pour accéder rapidement aux résultats de mes patients.",
+      "name": "Dr. Karim M.",
+      "role": "Médecin correspondant"
+    },
+    "testimonial3": {
+      "text": "J'ai apprécié la rapidité avec laquelle j'ai pu obtenir un rendez-vous et la ponctualité de l'équipe. Les locaux sont modernes et agréables, et le personnel est très professionnel. Je recommande vivement ce cabinet de radiologie.",
+      "name": "Rachid L.",
+      "role": "Patient Scanner"
+    }
+  },
+  "contact": {
+    "title": "Contactez-<span class='text-primary'>Nous</span>",
+    "subtitle": "N'hésitez pas à nous contacter pour toute question ou demande d'information supplémentaire.",
+    "address": {
+      "city": "Centre-ville, Oran, Algérie"
+    },
+    "hours": "Lun-Ven: 8h-18h | Sam: 8h-13h",
+    "form": {
+      "name": "Nom complet",
+      "email": "Email",
+      "subject": "Sujet",
+      "message": "Message",
+      "send": "Envoyer le message",
+      "sending": "Envoi en cours..."
+    },
+    "info": {
+      "title": "Informations de Contact",
+      "address": {
+        "title": "Adresse",
+        "content": "123 Boulevard Mohammed V, Centre-ville, Oran, Algérie"
+      },
+      "phone": {
+        "title": "Téléphone",
+        "content": "+213 00 00 00 00"
+      },
+      "fax": {
+        "title": "Fax",
+        "content": "+213 00 00 00 01"
+      },
+      "email": {
+        "title": "Email",
+        "content": "contact@cabinet-benameur.com"
+      },
+      "followUs": "Suivez-nous"
+    },
+    "success": {
+      "title": "Message envoyé",
+      "message": "Votre message a été envoyé avec succès. Nous vous répondrons dans les plus brefs délais."
+    },
+    "error": {
+      "title": "Erreur",
+      "message": "Une erreur est survenue lors de l'envoi de votre message. Veuillez réessayer ou nous contacter par téléphone."
+    }
+  },
+  "footer": {
+    "cabinet": "Cabinet de Radiologie",
+    "description": "Centre d'imagerie médicale de référence à Oran, offrant des examens radiologiques de haute qualité avec des équipements de pointe.",
+    "quickLinks": "Liens Rapides",
+    "services": "Nos Services",
+    "openingHours": "Horaires d'ouverture",
+    "mondayFriday": "Lundi - Vendredi",
+    "saturday": "Samedi",
+    "sunday": "Dimanche",
+    "closed": "Fermé",
+    "copyright": "Cabinet de Radiologie Dr. Benameur. Tous droits réservés.",
+    "privacy": "Politique de confidentialité",
+    "terms": "Mentions légales"
+  },
+  "login": {
+    "title": "Connexion Espace Médecins",
+    "subtitle": "Connectez-vous pour accéder aux résultats de vos patients",
+    "form": {
+      "username": "Nom d'utilisateur",
+      "usernamePlaceholder": "Votre nom d'utilisateur",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "Votre mot de passe",
+      "remember": "Se souvenir de moi",
+      "forgot": "Mot de passe oublié?",
+      "submit": "Connexion",
+      "loggingIn": "Connexion en cours..."
+    },
+    "error": {
+      "invalidCredentials": "Nom d'utilisateur ou mot de passe incorrect",
+      "title": "Erreur de connexion",
+      "message": "Une erreur est survenue lors de la connexion. Veuillez réessayer."
+    },
+    "success": {
+      "title": "Connexion réussie",
+      "message": "Vous êtes maintenant connecté à votre espace médecin."
+    },
+    "help": "Besoin d'aide pour vous connecter?",
+    "contact": "Contactez-nous"
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "welcome": "Bienvenue",
+    "notAuthenticated": "Vous n'êtes pas authentifié. Veuillez vous connecter pour accéder à cette page.",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "errorDescription": "Une erreur est survenue. Veuillez réessayer.",
+    "nav": {
+      "overview": "Vue d'ensemble",
+      "appointments": "Rendez-vous",
+      "patients": "Patients",
+      "messages": "Messages",
+      "logout": "Déconnexion"
+    },
+    "logout": {
+      "success": "Déconnexion réussie",
+      "successDescription": "Vous avez été déconnecté avec succès.",
+      "error": "Erreur de déconnexion",
+      "errorDescription": "Une erreur est survenue lors de la déconnexion. Veuillez réessayer."
+    },
+    "overview": {
+      "title": "Vue d'ensemble",
+      "description": "Aperçu de votre activité",
+      "pendingAppointments": "Rendez-vous en attente",
+      "upcomingAppointments": "Rendez-vous à venir",
+      "totalMessages": "Messages totaux",
+      "recentAppointments": "Rendez-vous récents"
+    },
+    "appointments": {
+      "title": "Gestion des rendez-vous",
+      "description": "Consultez et gérez les demandes de rendez-vous",
+      "noAppointments": "Aucun rendez-vous trouvé",
+      "patientName": "Patient",
+      "phone": "Téléphone",
+      "examType": "Type d'examen",
+      "date": "Date",
+      "prescription": "Prescription",
+      "status": "Statut",
+      "actions": "Actions",
+      "changeStatus": "Changer le statut",
+      "viewDetails": "Voir les détails",
+      "statusUpdated": "Statut mis à jour",
+      "statusUpdatedDescription": "Le statut du rendez-vous a été mis à jour avec succès.",
+      "tabs": {
+        "all": "Tous",
+        "pending": "En attente",
+        "confirmed": "Confirmés",
+        "completed": "Terminés",
+        "cancelled": "Annulés"
+      },
+      "status": {
+        "pending": "En attente",
+        "confirmed": "Confirmé",
+        "completed": "Terminé",
+        "cancelled": "Annulé"
+      }
+    },
+    "patients": {
+      "title": "Patients",
+      "description": "Gérez les informations des patients",
+      "comingSoon": "Cette fonctionnalité sera bientôt disponible."
+    },
+    "messages": {
+      "title": "Messages",
+      "description": "Consultez les messages des patients et des médecins",
+      "comingSoon": "Cette fonctionnalité sera bientôt disponible."
+    }
+  }
+}

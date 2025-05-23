@@ -1,0 +1,397 @@
+{
+  "meta": {
+    "homeTitle": "Medical Imaging Center Nelson Mandela - Oran",
+    "loginTitle": "Doctor Login - Nelson Mandela Medical Center",
+    "dashboardTitle": "Dashboard - Doctor Portal"
+  },
+  "header": {
+    "cabinet": "Medical Imaging Center",
+    "centerName": "Medical Diagnostics Center Nelson Mandela"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "appointment": "Appointments",
+    "news": "News",
+    "contact": "Contact",
+    "doctorPortal": "Doctor Portal"
+  },
+  "hero": {
+    "title": "Advanced <span class='text-primary'>Medical Imaging</span> in Oran",
+    "description": "The Nelson Mandela Medical Diagnostics Center offers high-quality medical imaging services with state-of-the-art equipment and an experienced medical team.",
+    "buttons": {
+      "appointment": "Book an Appointment",
+      "services": "Discover our Services"
+    },
+    "features": {
+      "expertise": "Certified Expertise",
+      "technology": "Advanced Technology",
+      "team": "Specialized Team"
+    },
+    "imageAlt": "Modern medical imaging room with MRI"
+  },
+  "about": {
+    "title": "About Our <span class='text-primary'>Center</span>",
+    "subtitle": "Leading medical and radiological expertise serving patients and healthcare professionals in Oran.",
+    "imageAlt": "Doctor examining medical images",
+    "career": {
+      "title": "Professional Experience",
+      "description": "Our center is staffed with experienced radiologists with over 20 years of practice in diagnostic and interventional medical imaging. Our specialists have trained at the most prestigious medical schools."
+    },
+    "education": {
+      "title": "Training and Specializations",
+      "education1": "Doctorate in Medicine, University of Algiers",
+      "education2": "Specialization in Diagnostic and Interventional Radiology",
+      "education3": "Advanced training in MRI and multi-slice CT",
+      "education4": "Expertise in Osteoarticular and Neurological Imaging"
+    },
+    "affiliations": {
+      "title": "Commitments and Affiliations",
+      "description": "Our doctors are active members of the Algerian Society of Radiology and the French Society of Radiology. They regularly participate in international conferences to stay at the forefront of technological advances in medical imaging."
+    },
+    "specialties": {
+      "specialty1": "Diagnostic Radiology",
+      "specialty2": "Neuroradiology",
+      "specialty3": "Osteoarticular Imaging",
+      "specialty4": "Interventional Radiology"
+    },
+    "stats": {
+      "years": {
+        "title": "Years of Experience",
+        "description": "In-depth expertise at the service of your health."
+      },
+      "patients": {
+        "title": "Patients Treated",
+        "description": "A trust established among patients in Oran."
+      },
+      "equipment": {
+        "title": "Modern Equipment",
+        "description": "Cutting-edge technologies for accurate diagnostics."
+      }
+    }
+  },
+  "services": {
+    "title": "Our <span class='text-primary'>Services</span>",
+    "subtitle": "The Nelson Mandela Medical Center offers a complete range of medical imaging examinations performed with state-of-the-art equipment.",
+    "categories": {
+      "all": "All Services",
+      "diagnostic": "Diagnostic Exams",
+      "specialized": "Specialized Exams",
+      "interventional": "Interventional Radiology"
+    },
+    "equipment": "Equipment used",
+    "appointment": "Make an appointment",
+    "appointmentButton": "Book an appointment for an exam",
+    "imageAlt": "medical equipment",
+    "items": {
+      "irm": {
+        "title": "MRI",
+        "description": "Magnetic Resonance Imaging provides precise images of organs and soft tissues without radiation. Ideal for exploring the brain, spine, and joints.",
+        "equipment": "Latest generation 3 Tesla MRI offering exceptional image quality and reduced examination time."
+      },
+      "scanner": {
+        "title": "CT Scan",
+        "description": "CT scanning provides cross-sectional images of the body with excellent resolution. Particularly suitable for examining the chest, abdomen, and pelvis.",
+        "equipment": "128-slice CT scanner allowing rapid acquisitions and high-precision 3D reconstruction."
+      },
+      "ultrasound": {
+        "title": "Ultrasound",
+        "description": "Ultrasound uses sound waves to visualize internal organs. Non-invasive and radiation-free, it is ideal for examining soft tissues, vessels, and pregnancy monitoring.",
+        "equipment": "High-definition ultrasound machines with color Doppler modules and specific probes for each anatomical region."
+      },
+      "radiography": {
+        "title": "Radiography",
+        "description": "Standard radiography provides images of the skeleton and thorax. It is used to diagnose fractures, lung conditions, and certain bone diseases.",
+        "equipment": "Digital radiography system (DR) allowing instant acquisition and low radiation dose."
+      },
+      "mammography": {
+        "title": "Mammography",
+        "description": "Mammography is a radiological examination dedicated to breast study. It is essential for early detection of breast cancer and exploration of breast abnormalities.",
+        "equipment": "Digital mammography with tomosynthesis allowing 3D visualization and improved detection of lesions."
+      },
+      "biopsy": {
+        "title": "Image-guided biopsy",
+        "description": "This technique allows tissue samples to be taken under ultrasound or CT guidance for pathological analysis, offering an accurate diagnosis with minimal intervention.",
+        "equipment": "High-precision guidance systems with single-use sterile biopsy kits for optimal safety."
+      }
+    }
+  },
+  "equipment": {
+    "title": "Our <span class='text-primary'>Technology</span>",
+    "subtitle": "The Nelson Mandela Medical Center constantly invests in cutting-edge equipment to offer the best possible diagnostic care.",
+    "imageAlt": "Modern medical equipment in our center",
+    "items": {
+      "mri": {
+        "title": "3 Tesla MRI",
+        "description": "Our high magnetic field MRI offers exceptionally precise images with reduced examination times for greater comfort."
+      },
+      "scanner": {
+        "title": "128-slice CT Scanner",
+        "description": "Our multi-slice CT scanner enables ultra-fast acquisitions and high-definition 3D reconstructions with minimal radiation."
+      },
+      "ultrasound": {
+        "title": "Doppler Ultrasound",
+        "description": "Our high-resolution ultrasound devices incorporate the latest technologies for precise imaging of organs and vessels."
+      }
+    },
+    "commitment": {
+      "title": "Our Technological Commitment",
+      "description": "The Nelson Mandela Medical Center is committed to providing optimal imaging quality while respecting the ALARA principle (As Low As Reasonably Achievable) to minimize radiation exposure.",
+      "points": {
+        "point1": "Regular equipment renewal",
+        "point2": "Continuous training of the technical team",
+        "point3": "Optimized protocols for each type of examination",
+        "point4": "Regular quality control of equipment"
+      }
+    }
+  },
+  "appointment": {
+    "title": "Book an <span class='text-primary'>Appointment</span>",
+    "subtitle": "Schedule your radiological examination easily and quickly with our appointment booking system.",
+    "button": "Book an Appointment",
+    "form": {
+      "title": "Appointment Request Form",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "phone": "Phone",
+      "email": "Email",
+      "examType": "Exam Type",
+      "examSelect": "Select an examination",
+      "date": "Preferred date",
+      "prescription": "Do you have a medical prescription?",
+      "message": "Message or additional information",
+      "yes": "Yes",
+      "no": "No",
+      "other": "Other",
+      "required": "Required fields. Our team will contact you within 24 business hours to confirm your appointment.",
+      "submit": "Send my request",
+      "submitting": "Sending..."
+    },
+    "practical": {
+      "title": "Practical Information",
+      "address": {
+        "title": "Address",
+        "content": "123 Mohammed V Boulevard, City Center, Oran, Algeria"
+      },
+      "phone": {
+        "title": "Phone",
+        "content": "+213 00 00 00 00"
+      },
+      "email": {
+        "title": "Email",
+        "content": "contact@nelson-mandela-center.com"
+      },
+      "hours": {
+        "title": "Opening Hours",
+        "weekdays": "Monday - Friday: 8:00 AM - 6:00 PM",
+        "saturday": "Saturday: 8:00 AM - 1:00 PM",
+        "sunday": "Sunday: Closed"
+      }
+    },
+    "location": {
+      "title": "Location",
+      "mapText": "Interactive map of the center",
+      "mapNote": "(Google Maps would be integrated here)",
+      "description": "Located in downtown Oran, our center is easily accessible by public transport and has private parking for our patients."
+    },
+    "success": {
+      "title": "Request sent",
+      "message": "Your appointment request has been successfully sent. We will contact you as soon as possible."
+    },
+    "error": {
+      "title": "Error",
+      "message": "An error occurred while sending your request. Please try again or contact us by phone."
+    }
+  },
+  "doctorPortal": {
+    "title": "Doctor <span class='text-primary'>Portal</span>",
+    "subtitle": "A secure portal dedicated to healthcare professionals to access their patients' examination results.",
+    "collaboration": {
+      "title": "Medical Collaboration",
+      "description": "The Nelson Mandela Medical Center provides referring physicians with secure access to view images and reports of their patients."
+    },
+    "features": {
+      "feature1": {
+        "title": "Instant access to results",
+        "description": "View your patients' radiological examinations as soon as they are validated."
+      },
+      "feature2": {
+        "title": "Medical image visualization",
+        "description": "Access high-resolution images with advanced visualization tools."
+      },
+      "feature3": {
+        "title": "Report downloads",
+        "description": "Download reports in PDF format and images in DICOM format."
+      },
+      "feature4": {
+        "title": "Secure communication",
+        "description": "Communicate confidentially with our radiological team."
+      }
+    },
+    "access": "To obtain your login credentials, please contact our medical secretariat with your professional information.",
+    "requestAccess": "Request access",
+    "login": {
+      "title": "Doctor Portal Login",
+      "email": "Professional email",
+      "password": "Password",
+      "remember": "Remember me",
+      "forgot": "Forgot password?",
+      "submit": "Login",
+      "loggingIn": "Logging in..."
+    },
+    "preview": {
+      "title": "Doctor portal preview",
+      "system": "Secure PACS system",
+      "online": "Online",
+      "description": "Our picture archiving and communication system allows you to access radiological examinations from any device.",
+      "demo": "View demo"
+    }
+  },
+  "news": {
+    "title": "News and <span class='text-primary'>Health Tips</span>",
+    "subtitle": "Stay informed about the latest news from the center and discover our tips for taking care of your health.",
+    "readMore": "Read more",
+    "healthTips": "Health Tips",
+    "learnMore": "Learn more",
+    "viewAll": "View all news",
+    "noNews": "No news available at the moment.",
+    "noTips": "No health tips available at the moment."
+  },
+  "testimonials": {
+    "title": "What <span class='text-primary'>Our Patients</span> Say",
+    "subtitle": "Discover testimonials from patients who have benefited from our medical imaging services.",
+    "testimonial1": {
+      "text": "I was very anxious about having an MRI, but the team at the Nelson Mandela Center was exceptional. They took the time to explain the procedure to me and were very kind. The exam went very well.",
+      "name": "Sarah B.",
+      "role": "MRI Patient"
+    },
+    "testimonial2": {
+      "text": "As a physician, I particularly appreciate the quality of the images and the accuracy of the reports provided by the Nelson Mandela Center. The doctor portal is also very convenient for quickly accessing my patients' results.",
+      "name": "Dr. Karim M.",
+      "role": "Referring Physician"
+    },
+    "testimonial3": {
+      "text": "I appreciated how quickly I was able to get an appointment and the punctuality of the team. The premises are modern and pleasant, and the staff is very professional. I highly recommend this imaging center.",
+      "name": "Rachid L.",
+      "role": "CT Scan Patient"
+    }
+  },
+  "contact": {
+    "title": "Contact <span class='text-primary'>Us</span>",
+    "subtitle": "Don't hesitate to contact us for any questions or requests for additional information.",
+    "address": {
+      "city": "City Center, Oran, Algeria"
+    },
+    "hours": "Mon-Fri: 8am-6pm | Sat: 8am-1pm",
+    "form": {
+      "name": "Full name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message",
+      "send": "Send message",
+      "sending": "Sending..."
+    },
+    "info": {
+      "title": "Contact Information",
+      "address": {
+        "title": "Address",
+        "content": "123 Mohammed V Boulevard, City Center, Oran, Algeria"
+      },
+      "phone": {
+        "title": "Phone",
+        "content": "+213 00 00 00 00"
+      },
+      "fax": {
+        "title": "Fax",
+        "content": "+213 00 00 00 01"
+      },
+      "email": {
+        "title": "Email",
+        "content": "contact@nelson-mandela-center.com"
+      },
+      "followUs": "Follow us"
+    },
+    "success": {
+      "title": "Message sent",
+      "message": "Your message has been successfully sent. We will respond as soon as possible."
+    },
+    "error": {
+      "title": "Error",
+      "message": "An error occurred while sending your message. Please try again or contact us by phone."
+    }
+  },
+  "footer": {
+    "cabinet": "Medical Imaging Center",
+    "description": "Reference medical imaging center in Oran, offering high-quality radiological examinations with state-of-the-art equipment.",
+    "quickLinks": "Quick Links",
+    "services": "Our Services",
+    "openingHours": "Opening Hours",
+    "mondayFriday": "Monday - Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday",
+    "closed": "Closed",
+    "copyright": "Nelson Mandela Medical Diagnostics Center. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms and Conditions"
+  },
+  "login": {
+    "title": "Doctor Portal Login",
+    "subtitle": "Login to access your patients' results",
+    "form": {
+      "username": "Username",
+      "password": "Password",
+      "remember": "Remember me",
+      "submit": "Login",
+      "submitting": "Logging in..."
+    },
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "contact": "Contact us to request access",
+    "success": "Login successful",
+    "error": "Incorrect username or password",
+    "returnHome": "Return to home page"
+  },
+  "dashboard": {
+    "welcome": "Welcome, Dr.",
+    "overview": "Dashboard Overview",
+    "stats": {
+      "pending": "Pending Appointments",
+      "confirmed": "Confirmed Appointments",
+      "completed": "Completed Exams",
+      "patients": "Total Patients"
+    },
+    "recentAppointments": "Recent Appointments",
+    "viewAll": "View all",
+    "appointmentsTabs": {
+      "all": "All",
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "appointmentsTable": {
+      "date": "Date",
+      "patient": "Patient",
+      "exam": "Exam",
+      "status": "Status",
+      "actions": "Actions",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "complete": "Complete",
+      "view": "View Details",
+      "noAppointments": "No appointments found"
+    },
+    "contactMessages": "Contact Messages",
+    "logout": "Logout",
+    "search": "Search...",
+    "notifications": "Notifications",
+    "profile": "Profile",
+    "settings": "Settings"
+  },
+  "pageNotFound": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for does not exist or has been moved.",
+    "button": "Return to home page"
+  }
+}
