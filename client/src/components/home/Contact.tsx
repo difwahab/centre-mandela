@@ -9,8 +9,23 @@ import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { MapPin, Phone, Printer, Mail, Facebook, Linkedin, Instagram } from 'lucide-react';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from '@/components/ui/form';
+import {
+  MapPin,
+  Phone,
+  Printer,
+  Mail,
+  Facebook,
+  Linkedin,
+  Instagram
+} from 'lucide-react';
 
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Le nom doit contenir au moins 2 caractères" }),
@@ -80,7 +95,7 @@ const Contact = () => {
                     <FormItem className="mb-4">
                       <FormLabel htmlFor="name">{t('contact.form.name')} *</FormLabel>
                       <FormControl>
-                        <Input id="name" name="name" autoComplete="name" {...field} />
+                        <Input id="name" autoComplete="name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -94,7 +109,7 @@ const Contact = () => {
                     <FormItem className="mb-4">
                       <FormLabel htmlFor="email">{t('contact.form.email')} *</FormLabel>
                       <FormControl>
-                        <Input id="email" name="email" type="email" autoComplete="email" {...field} />
+                        <Input id="email" type="email" autoComplete="email" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -108,7 +123,7 @@ const Contact = () => {
                     <FormItem className="mb-4">
                       <FormLabel htmlFor="subject">{t('contact.form.subject')} *</FormLabel>
                       <FormControl>
-                        <Input id="subject" name="subject" autoComplete="on" {...field} />
+                        <Input id="subject" autoComplete="on" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -122,7 +137,7 @@ const Contact = () => {
                     <FormItem className="mb-6">
                       <FormLabel htmlFor="message">{t('contact.form.message')} *</FormLabel>
                       <FormControl>
-                        <Textarea id="message" name="message" rows={5} autoComplete="on" {...field} />
+                        <Textarea id="message" rows={5} autoComplete="on" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

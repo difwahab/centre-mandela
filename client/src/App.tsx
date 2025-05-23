@@ -13,8 +13,12 @@ import { AuthProvider } from "@/context/AuthContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { useState, useEffect } from "react";
 
-// Protected route component
-function ProtectedRoute({ component: Component }) {
+type ProtectedRouteProps = {
+  component: React.ComponentType;
+};
+
+// ✅ Typage explicite de `component` pour éviter TS7031
+function ProtectedRoute({ component: Component }: ProtectedRouteProps) {
   const { user, isLoading } = useAuth();
   
   if (isLoading) {

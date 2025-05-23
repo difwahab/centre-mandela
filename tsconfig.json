@@ -6,18 +6,19 @@
     "noEmit": true,
 
     // Langage
-    "module": "ESNext",
     "target": "ESNext",
+    "module": "ESNext",
     "moduleResolution": "Bundler",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "jsx": "react-jsx",
 
-    // Qualité du code
+    // Qualité
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
 
-    // Résolution des chemins
+    // Résolution
     "baseUrl": ".",
     "paths": {
       "@/*": ["client/src/*"],
@@ -27,7 +28,6 @@
     // Types globaux
     "types": ["node", "vite/client"]
   },
-  "include": ["client/src/**/*", "shared/**/*", "server/**/*"],
-  "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
-  "extends": "./tsconfig.paths.json"
+  "include": ["client/src", "shared", "server"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts"]
 }
