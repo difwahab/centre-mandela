@@ -53,7 +53,17 @@
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply font-sans antialiased bg-background text-foreground;
+  }
+
+  a, button, [role="button"], input, textarea, select {
+    &:focus-visible {
+      @apply outline-none ring-2 ring-primary ring-offset-2;
+    }
   }
 }

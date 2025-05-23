@@ -78,7 +78,7 @@ const DoctorPortal = () => {
               ))}
             </div>
 
-            <p className="text-text-medium mb-6">{t('doctorPortal.access')}</p>
+            <p className="text-text-medium mb-6">{t('doctorPortal.collaboration.access')}</p>
 
             <Link href="#contact">
               <Button className="transition-all hover:-translate-y-0.5 hover:shadow-md">

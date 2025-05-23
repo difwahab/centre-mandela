@@ -22,11 +22,11 @@ const Services = () => {
   const services: Service[] = [
     {
       id: 'irm',
-      title: 'IRM',
+      title: t('services.items.irm.title'),
       category: 'diagnostic',
       image: 'https://pixabay.com/get/g8db771e7e41c3e6d463edb1e3e021ade47fdbdacd2ad53f2130650f7cee56fb113cfac87cffccae93eca3a2b17d2d1873dbfdb97208db4705abe36aa4f065730_1280.jpg',
       description: t('services.items.irm.description'),
-      equipment: t('services.items.irm.equipment')
+      equipment: t('services.items.irm.equipment'),
     },
     {
       id: 'scanner',
@@ -34,7 +34,7 @@ const Services = () => {
       category: 'diagnostic',
       image: 'https://images.unsplash.com/photo-1584982751601-97dcc096659c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=450',
       description: t('services.items.scanner.description'),
-      equipment: t('services.items.scanner.equipment')
+      equipment: t('services.items.scanner.equipment'),
     },
     {
       id: 'echographie',
@@ -42,7 +42,7 @@ const Services = () => {
       category: 'diagnostic',
       image: 'https://images.unsplash.com/photo-1579154341098-e4e158cc7f55?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=450',
       description: t('services.items.ultrasound.description'),
-      equipment: t('services.items.ultrasound.equipment')
+      equipment: t('services.items.ultrasound.equipment'),
     },
     {
       id: 'radiographie',
@@ -50,7 +50,7 @@ const Services = () => {
       category: 'diagnostic',
       image: 'https://images.unsplash.com/photo-1530026186672-2cd00ffc50fe?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=450',
       description: t('services.items.radiography.description'),
-      equipment: t('services.items.radiography.equipment')
+      equipment: t('services.items.radiography.equipment'),
     },
     {
       id: 'mammographie',
@@ -58,7 +58,7 @@ const Services = () => {
       category: 'specialized',
       image: 'https://images.unsplash.com/photo-1561328399-f94d2ce78679?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=450',
       description: t('services.items.mammography.description'),
-      equipment: t('services.items.mammography.equipment')
+      equipment: t('services.items.mammography.equipment'),
     },
     {
       id: 'biopsie',
@@ -66,13 +66,20 @@ const Services = () => {
       category: 'interventional',
       image: 'https://pixabay.com/get/gdca647664ee99449bd144019493e8953dd41933db6abe54e60fcd328fec24758abf119f87558c19beb58d5b3c6ee7d3187e5e822a909b763ac52041f01447c30_1280.jpg',
       description: t('services.items.biopsy.description'),
-      equipment: t('services.items.biopsy.equipment')
-    }
+      equipment: t('services.items.biopsy.equipment'),
+    },
   ];
 
-  const filteredServices = activeCategory === 'all' 
-    ? services 
+  const filteredServices = activeCategory === 'all'
+    ? services
     : services.filter(service => service.category === activeCategory);
+
+  const categories: { key: ServiceCategory; label: string }[] = [
+    { key: 'all', label: t('services.categories.all') },
+    { key: 'diagnostic', label: t('services.categories.diagnostic') },
+    { key: 'specialized', label: t('services.categories.specialized') },
+    { key: 'interventional', label: t('services.categories.interventional') },
+  ];
 
   return (
     <section id="services" className="py-16 bg-neutral-100">
@@ -86,61 +93,29 @@ const Services = () => {
             {t('services.subtitle')}
           </p>
         </div>
-        
-        {/* Service Tabs */}
-        <div className="mb-10">
-          <div className="flex flex-wrap justify-center gap-2 mb-8">
-            <button 
-              className={`px-5 py-2 rounded-md font-medium transition-colors ${
-                activeCategory === 'all' 
-                  ? 'bg-primary text-white' 
-                  : 'bg-white text-text-dark hover:bg-primary/10'
-              }`}
-              onClick={() => setActiveCategory('all')}
+
+        {/* Tabs */}
+        <div className="flex flex-wrap justify-center gap-2 mb-10">
+          {categories.map(({ key, label }) => (
+            <Button
+              key={key}
+              variant={activeCategory === key ? 'default' : 'outline'}
+              onClick={() => setActiveCategory(key)}
+              className="capitalize"
             >
-              {t('services.categories.all')}
-            </button>
-            <button 
-              className={`px-5 py-2 rounded-md font-medium transition-colors ${
-                activeCategory === 'diagnostic' 
-                  ? 'bg-primary text-white' 
-                  : 'bg-white text-text-dark hover:bg-primary/10'
-              }`}
-              onClick={() => setActiveCategory('diagnostic')}
-            >
-              {t('services.categories.diagnostic')}
-            </button>
-            <button 
-              className={`px-5 py-2 rounded-md font-medium transition-colors ${
-                activeCategory === 'specialized' 
-                  ? 'bg-primary text-white' 
-                  : 'bg-white text-text-dark hover:bg-primary/10'
-              }`}
-              onClick={() => setActiveCategory('specialized')}
-            >
-              {t('services.categories.specialized')}
-            </button>
-            <button 
-              className={`px-5 py-2 rounded-md font-medium transition-colors ${
-                activeCategory === 'interventional' 
-                  ? 'bg-primary text-white' 
-                  : 'bg-white text-text-dark hover:bg-primary/10'
-              }`}
-              onClick={() => setActiveCategory('interventional')}
-            >
-              {t('services.categories.interventional')}
-            </button>
-          </div>
+              {label}
+            </Button>
+          ))}
         </div>
-        
-        {/* Service Cards */}
+
+        {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredServices.map((service) => (
             <div key={service.id} className="bg-white rounded-xl shadow-md overflow-hidden">
               <div className="h-48 overflow-hidden">
-                <img 
-                  src={service.image} 
-                  alt={`${service.title} - ${t('services.imageAlt')}`}
+                <img
+                  src={service.image}
+                  alt={`${service.title} ${t('services.imageAlt')}`}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -151,9 +126,7 @@ const Services = () => {
                     {t(`services.categories.${service.category}`)}
                   </span>
                 </div>
-                <p className="text-text-medium mb-4">
-                  {service.description}
-                </p>
+                <p className="text-text-medium mb-4">{service.description}</p>
                 <div className="mb-4">
                   <h4 className="font-medium mb-2">{t('services.equipment')}:</h4>
                   <p className="text-text-medium text-sm">{service.equipment}</p>
@@ -165,7 +138,7 @@ const Services = () => {
             </div>
           ))}
         </div>
-        
+
         <div className="text-center mt-12">
           <Link href="#rendez-vous">
             <Button size="lg" className="transition-all hover:-translate-y-0.5 hover:shadow-md">
