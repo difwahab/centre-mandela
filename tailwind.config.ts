@@ -44,6 +44,23 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        brand: {
+          50: '#f0faff',
+          100: '#e0f4ff',
+          200: '#b9e4ff',
+          300: '#7dd0ff',
+          400: '#36b6ff',
+          500: '#009eff',
+          600: '#007fd1',
+          700: '#0061a3',
+          800: '#004476',
+          900: '#00294a',
+        },
+        dark: {
+          100: '#1e1e2f',
+          200: '#161625',
+          300: '#0e0e19',
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -62,9 +79,30 @@ const config: Config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            color: theme("colors.foreground"),
+            a: {
+              color: theme("colors.primary.DEFAULT"),
+              "&:hover": {
+                color: theme("colors.primary.foreground"),
+              },
+            },
+            h1: { fontWeight: "700" },
+            h2: { fontWeight: "600" },
+            code: {
+              backgroundColor: theme("colors.muted.DEFAULT"),
+              padding: "0.25rem 0.375rem",
+              borderRadius: "0.25rem",
+            },
+          },
+        },
+      }),
     },
   },
   plugins: [animate, typography],
 };
 
 export default config;
+
