@@ -1,33 +1,28 @@
 {
   "compilerOptions": {
-    // Compilation
     "incremental": true,
     "tsBuildInfoFile": "./node_modules/typescript/tsbuildinfo",
     "noEmit": true,
 
-    // Langage
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "node",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "jsx": "react-jsx",
 
-    // Qualité
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
 
-    // Résolution
     "baseUrl": ".",
     "paths": {
       "@/*": ["client/src/*"],
       "@shared/*": ["shared/*"]
     },
 
-    // Types globaux
     "types": ["node", "vite/client"]
   },
-  "include": ["client/src", "shared", "server"],
+  "include": ["vite.config.ts", "client/src", "shared", "server"],
   "exclude": ["node_modules", "dist", "**/*.test.ts"]
 }
