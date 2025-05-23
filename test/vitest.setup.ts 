@@ -1,0 +1,6 @@
+// vitest.setup.ts
+import "@testing-library/jest-dom";
+import { vi } from "vitest";
+
+// Exemple : mock global si besoin
+vi.stubGlobal("fetch", vi.fn());

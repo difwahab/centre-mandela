@@ -1,15 +1,9 @@
-import { Pool, neonConfig } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-serverless';
-import ws from "ws";
-import * as schema from "@shared/schema";
+import Database from "better-sqlite3";
+import { drizzle } from "drizzle-orm/better-sqlite3";
+import * as schema from "@shared/schema"; // suppose que ce chemin alias fonctionne
 
-neonConfig.webSocketConstructor = ws;
+// Crée ou ouvre la base SQLite locale dans le fichier db.sqlite
+const sqlite = new Database("./db.sqlite"); // 🔁 ajout du ./ pour plus de clarté
 
-if (!process.env.DATABASE_URL) {
-  throw new Error(
-    "DATABASE_URL must be set. Did you forget to provision a database?",
-  );
-}
-
-export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-export const db = drizzle(pool, { schema });
+// Initialise drizzle avec le schéma partagé
+export const db = drizzle(sqlite, { schema });
