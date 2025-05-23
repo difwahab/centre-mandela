@@ -1,20 +1,22 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
-async function throwIfResNotOk(res: Response) {
+// Fonction utilitaire pour vérifier la réponse d'une requête fetch
+async function throwIfResNotOk(res: Response): Promise<void> {
   if (!res.ok) {
-    const text = (await res.text()) || res.statusText;
-    throw new Error(`${res.status}: ${text}`);
+    const text = await res.text();
+    throw new Error(`${res.status}: ${text || res.statusText}`);
   }
 }
 
+// Fonction générique pour faire une requête API avec fetch
 export async function apiRequest(
   method: string,
   url: string,
-  data?: unknown | undefined,
+  data?: unknown
 ): Promise<Response> {
   const res = await fetch(url, {
     method,
-    headers: data ? { "Content-Type": "application/json" } : {},
+    headers: data ? { "Content-Type": "application/json" } : undefined,
     body: data ? JSON.stringify(data) : undefined,
     credentials: "include",
   });
@@ -24,30 +26,35 @@ export async function apiRequest(
 }
 
 type UnauthorizedBehavior = "returnNull" | "throw";
-export const getQueryFn: <T>(options: {
+
+// Fonction génératrice de queryFn pour react-query avec gestion du 401
+export const getQueryFn = <T>(options: {
   on401: UnauthorizedBehavior;
-}) => QueryFunction<T> =
-  ({ on401: unauthorizedBehavior }) =>
-  async ({ queryKey }) => {
-    const res = await fetch(queryKey[0] as string, {
+}): QueryFunction<T> => {
+  return async ({ queryKey }) => {
+    const url = queryKey[0] as string;
+
+    const res = await fetch(url, {
       credentials: "include",
     });
 
-    if (unauthorizedBehavior === "returnNull" && res.status === 401) {
-      return null;
+    if (res.status === 401 && options.on401 === "returnNull") {
+      return null as unknown as T;
     }
 
     await throwIfResNotOk(res);
-    return await res.json();
+    return (await res.json()) as T;
   };
+};
 
+// Configuration globale du client React Query
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       queryFn: getQueryFn({ on401: "throw" }),
+      staleTime: Infinity,
       refetchInterval: false,
       refetchOnWindowFocus: false,
-      staleTime: Infinity,
       retry: false,
     },
     mutations: {

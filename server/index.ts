@@ -1,11 +1,26 @@
 import * as dotenv from "dotenv";
-dotenv.config();
+import { existsSync } from "fs";
+
+// Charge le bon fichier .env selon l'environnement
+const envFile = process.env.NODE_ENV === "production" ? ".env.production" : ".env";
+if (existsSync(envFile)) {
+  dotenv.config({ path: envFile });
+} else {
+  dotenv.config(); // fallback
+}
 
 import express, { type Request, type Response, type NextFunction } from "express";
+import cors from "cors";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
+
+// ✅ CORS avant tout
+app.use(cors({
+  origin: "http://localhost:5173", // ou ton domaine client
+  credentials: true,
+}));
 
 // Middleware pour parser JSON et URL-encoded
 app.use(express.json());
@@ -56,7 +71,7 @@ app.use((req, res, next) => {
   });
 
   // Vite en dev, fichiers statiques en prod
-  if (app.get("env") === "development") {
+  if (process.env.NODE_ENV === "development") {
     await setupVite(app, server);
   } else {
     serveStatic(app);

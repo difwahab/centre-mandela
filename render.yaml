@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: my-app-server
+    env: node
+    plan: free
+    buildCommand: pnpm install && pnpm --filter client build
+    startCommand: node server/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        value: ./data/database.sqlite
+      - key: VITE_API_URL
+        value: /api
+    buildFilter:
+      paths:
+        - client/**
+        - server/**
+        - shared/**

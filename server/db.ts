@@ -1,9 +1,10 @@
+// server/db.ts
 import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
-import * as schema from "@shared/schema"; // suppose que ce chemin alias fonctionne
+import * as schema from "@shared/schema";
 
-// Crée ou ouvre la base SQLite locale dans le fichier db.sqlite
-const sqlite = new Database("./db.sqlite"); // 🔁 ajout du ./ pour plus de clarté
+// ✅ Utilise le disque persistant monté à /data sur Render
+const sqlite = new Database("/data/database.sqlite");
 
-// Initialise drizzle avec le schéma partagé
+// Initialise Drizzle avec le schéma partagé
 export const db = drizzle(sqlite, { schema });

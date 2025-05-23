@@ -26,7 +26,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 
 const DoctorDashboard = () => {
   const { t } = useTranslation();
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('dashboard');
 
@@ -113,7 +113,7 @@ const DoctorDashboard = () => {
                 <TableCell>
                   <Select
                     defaultValue={a.status}
-                    onValueChange={(value) => handleStatusChange(a.id, value)}
+                    onValueChange={(value: string) => handleStatusChange(a.id, value)}
                     disabled={updateAppointmentMutation.isPending}
                   >
                     <SelectTrigger className="w-32">

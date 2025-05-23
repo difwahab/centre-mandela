@@ -5,8 +5,13 @@ import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 import path from "path";
 
 export default defineConfig(async () => {
-  const plugins = [react(), runtimeErrorOverlay(), tsconfigPaths()];
+  const plugins = [
+    react(),
+    tsconfigPaths(),
+    runtimeErrorOverlay(),
+  ];
 
+  // Plugin Replit (facultatif)
   if (
     process.env.NODE_ENV !== "production" &&
     process.env.REPL_ID !== undefined
@@ -16,21 +21,27 @@ export default defineConfig(async () => {
   }
 
   return {
+    // 👇 On démarre dans le dossier client
+    root: path.resolve(__dirname, "client"),
     plugins,
-    root: "client",
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "client/src"),
+        "@shared": path.resolve(__dirname, "shared"),
       },
     },
     build: {
-      outDir: "../dist/public",
+      // 👇 Les fichiers de build sont envoyés dans dist/public côté serveur
+      outDir: path.resolve(__dirname, "dist/public"),
       emptyOutDir: true,
+    },
+    css: {
+      postcss: path.resolve(__dirname, "client/src/postcss.config.js"),
     },
     test: {
       globals: true,
       environment: "jsdom",
-      setupFiles: "./vitest.setup.ts",
+      setupFiles: path.resolve(__dirname, "vitest.setup.ts"),
     },
   };
 });

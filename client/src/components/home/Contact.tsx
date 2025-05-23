@@ -24,22 +24,20 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 const Contact = () => {
   const { t } = useTranslation();
   const { toast } = useToast();
-  
+
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
+      name: '',
+      email: '',
+      subject: '',
+      message: '',
     },
   });
 
   const contactMutation = useMutation({
-    mutationFn: (data: ContactFormValues) => {
-      return apiRequest('POST', '/api/contact', data);
-    },
-    onSuccess: async () => {
+    mutationFn: (data: ContactFormValues) => apiRequest('POST', '/api/contact', data),
+    onSuccess: () => {
       toast({
         title: t('contact.success.title'),
         description: t('contact.success.message'),
@@ -50,7 +48,7 @@ const Contact = () => {
       toast({
         title: t('contact.error.title'),
         description: t('contact.error.message'),
-        variant: "destructive",
+        variant: 'destructive',
       });
       console.error('Contact form submission error:', error);
     },
@@ -68,11 +66,9 @@ const Contact = () => {
             <span dangerouslySetInnerHTML={{ __html: t('contact.title') }} />
           </h2>
           <div className="w-24 h-1 bg-primary mx-auto mb-6"></div>
-          <p className="text-text-medium max-w-3xl mx-auto">
-            {t('contact.subtitle')}
-          </p>
+          <p className="text-text-medium max-w-3xl mx-auto">{t('contact.subtitle')}</p>
         </div>
-        
+
         <div className="grid md:grid-cols-2 gap-8">
           <div>
             <Form {...form}>
@@ -82,127 +78,87 @@ const Contact = () => {
                   name="name"
                   render={({ field }) => (
                     <FormItem className="mb-4">
-                      <FormLabel>{t('contact.form.name')} *</FormLabel>
+                      <FormLabel htmlFor="name">{t('contact.form.name')} *</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input id="name" name="name" autoComplete="name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                
+
                 <FormField
                   control={form.control}
                   name="email"
                   render={({ field }) => (
                     <FormItem className="mb-4">
-                      <FormLabel>{t('contact.form.email')} *</FormLabel>
+                      <FormLabel htmlFor="email">{t('contact.form.email')} *</FormLabel>
                       <FormControl>
-                        <Input type="email" {...field} />
+                        <Input id="email" name="email" type="email" autoComplete="email" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                
+
                 <FormField
                   control={form.control}
                   name="subject"
                   render={({ field }) => (
                     <FormItem className="mb-4">
-                      <FormLabel>{t('contact.form.subject')} *</FormLabel>
+                      <FormLabel htmlFor="subject">{t('contact.form.subject')} *</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input id="subject" name="subject" autoComplete="on" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                
+
                 <FormField
                   control={form.control}
                   name="message"
                   render={({ field }) => (
                     <FormItem className="mb-6">
-                      <FormLabel>{t('contact.form.message')} *</FormLabel>
+                      <FormLabel htmlFor="message">{t('contact.form.message')} *</FormLabel>
                       <FormControl>
-                        <Textarea rows={5} {...field} />
+                        <Textarea id="message" name="message" rows={5} autoComplete="on" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                
-                <Button 
-                  type="submit" 
+
+                <Button
+                  type="submit"
                   className="w-full transition-all hover:-translate-y-0.5 hover:shadow-md"
                   disabled={contactMutation.isPending}
                 >
-                  {contactMutation.isPending 
-                    ? t('contact.form.sending') 
+                  {contactMutation.isPending
+                    ? t('contact.form.sending')
                     : t('contact.form.send')}
                 </Button>
               </form>
             </Form>
           </div>
-          
+
+          {/* Informations de contact */}
           <div>
             <div className="bg-neutral-100 p-8 rounded-xl h-full">
               <h3 className="text-xl font-semibold mb-6">{t('contact.info.title')}</h3>
-              
+
               <div className="space-y-6 mb-8">
-                <div className="flex items-start">
-                  <div className="w-10 h-10 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-4 flex-shrink-0">
-                    <MapPin className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h4 className="font-medium">{t('contact.info.address.title')}</h4>
-                    <p className="text-text-medium">{t('contact.info.address.content')}</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start">
-                  <div className="w-10 h-10 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-4 flex-shrink-0">
-                    <Phone className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h4 className="font-medium">{t('contact.info.phone.title')}</h4>
-                    <p className="text-text-medium">{t('contact.info.phone.content')}</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start">
-                  <div className="w-10 h-10 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-4 flex-shrink-0">
-                    <Printer className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h4 className="font-medium">{t('contact.info.fax.title')}</h4>
-                    <p className="text-text-medium">{t('contact.info.fax.content')}</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start">
-                  <div className="w-10 h-10 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-4 flex-shrink-0">
-                    <Mail className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h4 className="font-medium">{t('contact.info.email.title')}</h4>
-                    <p className="text-text-medium">{t('contact.info.email.content')}</p>
-                  </div>
-                </div>
+                <ContactInfo icon={<MapPin />} title={t('contact.info.address.title')} content={t('contact.info.address.content')} />
+                <ContactInfo icon={<Phone />} title={t('contact.info.phone.title')} content={t('contact.info.phone.content')} />
+                <ContactInfo icon={<Printer />} title={t('contact.info.fax.title')} content={t('contact.info.fax.content')} />
+                <ContactInfo icon={<Mail />} title={t('contact.info.email.title')} content={t('contact.info.email.content')} />
               </div>
-              
+
               <h4 className="font-medium mb-3">{t('contact.info.followUs')}</h4>
               <div className="flex space-x-4">
-                <a href="#" className="w-10 h-10 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white flex items-center justify-center transition-all">
-                  <Facebook className="h-5 w-5" />
-                </a>
-                <a href="#" className="w-10 h-10 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white flex items-center justify-center transition-all">
-                  <Linkedin className="h-5 w-5" />
-                </a>
-                <a href="#" className="w-10 h-10 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white flex items-center justify-center transition-all">
-                  <Instagram className="h-5 w-5" />
-                </a>
+                <SocialIcon icon={<Facebook />} />
+                <SocialIcon icon={<Linkedin />} />
+                <SocialIcon icon={<Instagram />} />
               </div>
             </div>
           </div>
@@ -211,5 +167,26 @@ const Contact = () => {
     </section>
   );
 };
+
+const ContactInfo = ({ icon, title, content }: { icon: React.ReactNode; title: string; content: string }) => (
+  <div className="flex items-start">
+    <div className="w-10 h-10 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-4 flex-shrink-0">
+      {icon}
+    </div>
+    <div>
+      <h4 className="font-medium">{title}</h4>
+      <p className="text-text-medium">{content}</p>
+    </div>
+  </div>
+);
+
+const SocialIcon = ({ icon }: { icon: React.ReactNode }) => (
+  <a
+    href="#"
+    className="w-10 h-10 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white flex items-center justify-center transition-all"
+  >
+    {icon}
+  </a>
+);
 
 export default Contact;
