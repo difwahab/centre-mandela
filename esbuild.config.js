@@ -11,7 +11,7 @@ esbuild.build({
   minify: false,
   target: "node18",
   external: [
-    // dépendances node qu'on ne veut pas bundler
+    // ❌ Empêche esbuild de bundler ces modules dynamiques
     "express",
     "express-session",
     "memorystore",
