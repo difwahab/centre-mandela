@@ -1,16 +1,14 @@
 import express, { type Express } from "express";
 import fs from "fs";
 import path from "path";
-import { createServer as createViteDevServer } from "vite";
+import { createServer as createViteDevServer } from "vite/node"; // ✅ Corrigé ici
 import { type Server } from "http";
 import { nanoid } from "nanoid";
 import { fileURLToPath } from "url";
 
-// Résout __dirname en ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Logger simple
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
     hour: "numeric",
@@ -22,7 +20,6 @@ export function log(message: string, source = "express") {
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 
-// Développement : injecte Vite en middleware
 export async function setupVite(app: Express, server: Server) {
   const clientRoot = path.resolve(__dirname, "../client");
 
@@ -32,7 +29,7 @@ export async function setupVite(app: Express, server: Server) {
     server: {
       middlewareMode: true,
       hmr: { server },
-      watch: { usePolling: true }, // pour compatibilité Render
+      watch: { usePolling: true },
     },
     appType: "custom",
   });
@@ -59,7 +56,6 @@ export async function setupVite(app: Express, server: Server) {
   });
 }
 
-// Production : sert les fichiers statiques du client
 export function serveStatic(app: Express) {
   const dist = path.resolve(__dirname, "../client/dist");
 
