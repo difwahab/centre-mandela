@@ -8,6 +8,7 @@ const config: Config = {
     "./client/src/**/*.{js,ts,jsx,tsx}",
     "./shared/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
@@ -92,34 +93,54 @@ const config: Config = {
             a: {
               color: theme("colors.primary.DEFAULT"),
               textDecoration: "underline",
+              fontWeight: "500",
               "&:hover": {
                 color: theme("colors.primary.foreground"),
               },
             },
             h1: {
               fontWeight: "700",
-              fontSize: theme("fontSize.3xl"),
+              fontSize: theme("fontSize.4xl"),
               marginBottom: "0.75em",
+              color: theme("colors.foreground"),
             },
             h2: {
               fontWeight: "600",
-              fontSize: theme("fontSize.2xl"),
+              fontSize: theme("fontSize.3xl"),
               marginBottom: "0.5em",
+              color: theme("colors.foreground"),
             },
             h3: {
               fontWeight: "600",
-              fontSize: theme("fontSize.xl"),
+              fontSize: theme("fontSize.2xl"),
               marginBottom: "0.5em",
+              color: theme("colors.foreground"),
             },
             p: {
               marginBottom: "1em",
               lineHeight: "1.75",
+              color: theme("colors.foreground"),
             },
             code: {
               backgroundColor: theme("colors.muted.DEFAULT"),
+              color: theme("colors.foreground"),
               padding: "0.25rem 0.375rem",
               borderRadius: "0.25rem",
               fontSize: "0.875em",
+            },
+            blockquote: {
+              fontStyle: "italic",
+              borderLeft: `4px solid ${theme("colors.muted.DEFAULT")}`,
+              paddingLeft: "1em",
+              color: theme("colors.muted.foreground"),
+            },
+            ul: {
+              listStyleType: "disc",
+              paddingLeft: "1.5em",
+            },
+            ol: {
+              listStyleType: "decimal",
+              paddingLeft: "1.5em",
             },
           },
         },
