@@ -1,7 +1,11 @@
 import * as dotenv from "dotenv";
 import { existsSync } from "fs";
+import express, { type Request, type Response, type NextFunction } from "express";
+import cors from "cors";
+import { registerRoutes } from "./routes";
+import { setupVite, serveStatic, log } from "./vite";
 
-// 📦 Chargement du bon fichier .env selon l'environnement
+// 🔁 Charge le bon fichier .env selon l'environnement
 const envFile = process.env.NODE_ENV === "production" ? ".env.production" : ".env";
 if (existsSync(envFile)) {
   dotenv.config({ path: envFile });
@@ -9,17 +13,12 @@ if (existsSync(envFile)) {
   dotenv.config(); // fallback
 }
 
-import express, { type Request, type Response, type NextFunction } from "express";
-import cors from "cors";
-import { registerRoutes } from "./routes";
-import { setupVite, serveStatic, log } from "./vite";
-
 const app = express();
 
-// ✅ Middleware CORS
+// ✅ Middleware CORS sécurisé
 app.use(cors({
   origin: process.env.NODE_ENV === "production"
-    ? undefined // à adapter avec le vrai domaine Render
+    ? process.env.CLIENT_ORIGIN || "*" // à adapter : domaine du frontend en prod
     : "http://localhost:5173",
   credentials: true,
 }));
@@ -44,9 +43,7 @@ app.use((req, res, next) => {
     if (path.startsWith("/api")) {
       const duration = Date.now() - start;
       let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-      if (capturedJson) {
-        logLine += ` :: ${JSON.stringify(capturedJson)}`;
-      }
+      if (capturedJson) logLine += ` :: ${JSON.stringify(capturedJson)}`;
       if (logLine.length > 120) logLine = logLine.slice(0, 119) + "…";
       log(logLine);
     }
@@ -74,7 +71,7 @@ app.use((req, res, next) => {
   }
 
   // ✅ Démarrage du serveur
-  const port = process.env.PORT ? parseInt(process.env.PORT) : 5000;
+  const port = parseInt(process.env.PORT || "5000", 10);
   server.listen({ port, host: "0.0.0.0" }, () => {
     log(`✅ Server running on http://localhost:${port}`);
   });
