@@ -5,11 +5,11 @@ import NotFound from "./pages/not-found";
 import Home from "./pages/Home";
 import DoctorLogin from "./pages/DoctorLogin";
 import DoctorDashboard from "./pages/DoctorDashboard";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
-import BackToTop from "@/components/BackToTop";
-import { useAuth, AuthProvider } from "@/context/AuthContext";
-import { LanguageProvider } from "@/context/LanguageContext";
+import Header from "./components/layout/Header";
+import Footer from "./components/layout/Footer";
+import BackToTop from "./components/BackToTop";
+import { useAuth, AuthProvider } from "./context/AuthContext";
+import { LanguageProvider } from "./context/LanguageContext";
 import { ComponentType } from "react";
 
 type ProtectedRouteProps = {
