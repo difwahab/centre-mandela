@@ -42,13 +42,15 @@ function Router() {
 function AppContent() {
   return (
     <TooltipProvider>
-      <Header />
-      <main>
-        <Router />
-      </main>
-      <Footer />
-      <BackToTop />
-      <Toaster />
+      <div className="bg-background text-foreground min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-grow">
+          <Router />
+        </main>
+        <Footer />
+        <BackToTop />
+        <Toaster />
+      </div>
     </TooltipProvider>
   );
 }
