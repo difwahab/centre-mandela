@@ -1,8 +1,15 @@
-import { createInsertSchema } from "drizzle-zod";
+// shared/zod.ts
 import { z } from "zod";
-import { users, appointments, contactMessages, newsPosts } from "./schema";
+import { createInsertSchema } from "drizzle-zod";
+import {
+  users,
+  appointments,
+  contactMessages,
+  newsPosts,
+} from "./schema";
 
-// Zod insert schemas
+// --- Zod insert schemas ---
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -36,7 +43,8 @@ export const insertNewsPostSchema = createInsertSchema(newsPosts).pick({
   category: true,
 });
 
-// Optional: Types
+// --- Types TypeScript ---
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type InsertAppointment = z.infer<typeof insertAppointmentSchema>;
 export type InsertContactMessage = z.infer<typeof insertContactMessageSchema>;
