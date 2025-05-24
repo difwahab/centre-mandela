@@ -1,8 +1,6 @@
-// shared/schema.ts
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
 
-// Users schema
 export const users = sqliteTable("users", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   username: text("username").notNull(),
@@ -13,7 +11,6 @@ export const users = sqliteTable("users", {
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
 });
 
-// Appointments schema
 export const appointments = sqliteTable("appointments", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   firstName: text("first_name").notNull(),
@@ -22,13 +19,12 @@ export const appointments = sqliteTable("appointments", {
   email: text("email"),
   examType: text("exam_type").notNull(),
   preferredDate: text("preferred_date").notNull(),
-  hasPrescription: integer("has_prescription").notNull(), // boolean as 0 or 1
+  hasPrescription: integer("has_prescription").notNull(),
   message: text("message"),
   status: text("status").notNull().default("pending"),
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
 });
 
-// Contact messages schema
 export const contactMessages = sqliteTable("contact_messages", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   name: text("name").notNull(),
@@ -38,7 +34,6 @@ export const contactMessages = sqliteTable("contact_messages", {
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
 });
 
-// News/blog posts schema
 export const newsPosts = sqliteTable("news_posts", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   title: text("title").notNull(),
