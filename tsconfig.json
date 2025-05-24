@@ -1,28 +1,22 @@
 {
   "compilerOptions": {
-    "incremental": true,
-    "tsBuildInfoFile": "./node_modules/typescript/tsbuildinfo",
-    "noEmit": true,
-
-    "target": "ESNext",
+    "target": "ES2020",
     "module": "ESNext",
-    "moduleResolution": "node",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "jsx": "react-jsx",
-
-    "strict": true,
+    "moduleResolution": "Node",
     "esModuleInterop": true,
-    "skipLibCheck": true,
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
-
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["client/src/*"],
+      "@client/*": ["client/src/*"],
+      "@server/*": ["server/*"],
       "@shared/*": ["shared/*"]
     },
-
-    "types": ["node", "vite/client"]
+    "outDir": "dist"
   },
-  "include": ["vite.config.ts", "client/src", "shared", "server"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts"]
+  "include": ["client", "server", "shared"]
 }
