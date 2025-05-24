@@ -1,4 +1,17 @@
+// esbuild.config.js
+
 const esbuild = require('esbuild');
+
+// Liste complète des modules Node à exclure du bundle
+const externalModules = [
+  'dotenv',
+  'express',
+  'express-session',
+  'memorystore',
+  'cors',
+  'passport',
+  'passport-local'
+];
 
 esbuild.build({
   entryPoints: ['server/index.ts'],
@@ -6,7 +19,14 @@ esbuild.build({
   platform: 'node',
   format: 'esm',
   outdir: 'dist',
-  external: ['memorystore', 'express-session'], // EXCLURE ces packages
+  external: externalModules,
   sourcemap: true,
-  minify: false
-}).catch(() => process.exit(1));
+  minify: false,
+  logLevel: 'info',
+  target: 'node20', // important pour Render qui utilise Node 20+
+}).then(() => {
+  console.log('✅ Esbuild completed successfully.');
+}).catch((error) => {
+  console.error('❌ Esbuild failed:', error);
+  process.exit(1);
+});
