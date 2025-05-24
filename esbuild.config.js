@@ -6,7 +6,7 @@ esbuild.build({
   platform: 'node',
   format: 'esm',
   outdir: 'dist',
-  external: [],       // Ne rien externaliser pour que le point d'entrée soit inclus
+  external: ['memorystore', 'express-session'], // EXCLURE ces packages
   sourcemap: true,
   minify: false
 }).catch(() => process.exit(1));
