@@ -1,78 +1,42 @@
-import * as dotenv from "dotenv";
-import { existsSync } from "fs";
-import express, { type Request, type Response, type NextFunction } from "express";
+import express, { type Express } from "express";
+import { createServer } from "http";
+import helmet from "helmet";
 import cors from "cors";
-import { registerRoutes } from "./routes";
+import compression from "compression";
 import { setupVite, serveStatic, log } from "./vite";
+import { registerRoutes } from "./routes";
 
-// 🔁 Charge le bon fichier .env selon l'environnement
-const envFile = process.env.NODE_ENV === "production" ? ".env.production" : ".env";
-if (existsSync(envFile)) {
-  dotenv.config({ path: envFile });
-} else {
-  dotenv.config(); // fallback
-}
+const isDev = process.env.NODE_ENV !== "production";
+const PORT = Number(process.env.PORT) || 3000;
 
-const app = express();
+const app: Express = express();
+const httpServer = createServer(app);
 
-// ✅ Middleware CORS sécurisé
-app.use(cors({
-  origin: process.env.NODE_ENV === "production"
-    ? process.env.CLIENT_ORIGIN || "*" // à adapter : domaine du frontend en prod
-    : "http://localhost:5173",
-  credentials: true,
-}));
-
-// ✅ Middlewares de parsing
+// Middlewares de sécurité et compression
+app.use(helmet());
+app.use(cors());
+app.use(compression());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 
-// ✅ Logger des requêtes API
-app.use((req, res, next) => {
-  const start = Date.now();
-  const path = req.path;
-  let capturedJson: any;
+// Enregistrement des routes API
+registerRoutes(app);
 
-  const originalJson = res.json;
-  res.json = function (body: any) {
-    capturedJson = body;
-    return originalJson.call(this, body);
-  };
-
-  res.on("finish", () => {
-    if (path.startsWith("/api")) {
-      const duration = Date.now() - start;
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-      if (capturedJson) logLine += ` :: ${JSON.stringify(capturedJson)}`;
-      if (logLine.length > 120) logLine = logLine.slice(0, 119) + "…";
-      log(logLine);
-    }
-  });
-
-  next();
-});
-
-(async () => {
-  // ✅ Enregistre les routes API
-  const server = await registerRoutes(app);
-
-  // ✅ Gestion globale des erreurs
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
-    res.status(status).json({ message });
-  });
-
-  // ✅ Dev : Vite middleware | Prod : fichiers statiques
-  if (process.env.NODE_ENV === "development") {
-    await setupVite(app, server);
+// Initialisation serveur avec support Vite
+async function startServer() {
+  if (isDev) {
+    log("Mode développement activé", "server");
+    await setupVite(app, httpServer);
   } else {
+    log("Mode production activé", "server");
     serveStatic(app);
   }
 
-  // ✅ Démarrage du serveur
-  const port = parseInt(process.env.PORT || "5000", 10);
-  server.listen({ port, host: "0.0.0.0" }, () => {
-    log(`✅ Server running on http://localhost:${port}`);
+  httpServer.listen(PORT, () => {
+    log(`Serveur prêt sur http://localhost:${PORT}`, "server");
   });
-})();
+}
+
+startServer().catch((err) => {
+  console.error("Erreur lors du démarrage du serveur :", err);
+  process.exit(1);
+});
