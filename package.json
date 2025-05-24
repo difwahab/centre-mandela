@@ -3,22 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    // Dev mode pour le backend + Vite frontend
+   
     "dev": "NODE_ENV=development tsx server/index.ts",
-    
-    // Build client avec Vite + backend avec esbuild (si utilisé)
     "build": "vite build && node esbuild.config.js",
-    
-    // Production start
     "start": "NODE_ENV=production node dist/index.js",
-
-    // TypeScript type check
     "check": "tsc",
-
-    // Migration vers la DB (Drizzle ORM)
     "db:push": "drizzle-kit push",
-
-    // Seed initial de la DB
     "db:seed": "tsx server/db/seed.ts"
   },
   "dependencies": {
@@ -28,7 +18,7 @@
     "react-hook-form": "^7.45.1",
     "@tanstack/react-query": "^5.0.0",
 
-    // Backend
+
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "memorystore": "^1.6.6",
@@ -40,7 +30,7 @@
     "better-sqlite3": "^8.3.0",
     "drizzle-orm": "^0.23.4",
 
-    // Validation partagée
+
     "zod": "^3.22.4"
   },
   "devDependencies": {
@@ -48,16 +38,13 @@
     "vite": "^5.4.19",
     "vite-tsconfig-paths": "^4.3.2",
 
-    // TypeScript
     "typescript": "^5.1.3",
     "tsx": "^4.7.0",
 
-    // Tailwind CSS
     "tailwindcss": "^3.4.1",
     "postcss": "^8.4.24",
     "autoprefixer": "^10.4.17",
 
-    // Linting
     "eslint": "^8.45.0",
     "eslint-plugin-react": "^7.32.2"
   },
