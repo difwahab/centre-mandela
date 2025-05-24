@@ -2,14 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Définition de la classe border-border qui utilise ta couleur personnalisée */
-@layer components {
-  .border-border {
-    border-color: theme('colors.border');
-  }
-}
-
-/* Ton reste de styles */
 :root {
   --background: 0 0% 100%;
   --foreground: 20 14.3% 4.1%;
@@ -56,22 +48,55 @@
   --radius: 0.5rem;
 }
 
-@layer base {
-  * {
-    @apply border-border;
+/* Déclaration manuelle des classes personnalisées à appliquer */
+@layer utilities {
+  .bg-background {
+    background-color: hsl(var(--background));
   }
+  .text-foreground {
+    color: hsl(var(--foreground));
+  }
+  .border-border {
+    border-color: hsl(var(--border));
+  }
+  .input-bg {
+    background-color: hsl(var(--input));
+  }
+  .ring-color {
+    --tw-ring-color: hsl(var(--ring));
+  }
+  .radius-lg {
+    border-radius: var(--radius);
+  }
+}
 
+@layer base {
+  /* Applique les styles globaux directement, sans @apply sur classes inexistantes */
   html {
     scroll-behavior: smooth;
   }
 
   body {
-    @apply font-sans antialiased bg-background text-foreground;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol", "Noto Color Emoji";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
   }
 
-  a, button, [role="button"], input, textarea, select {
+  a,
+  button,
+  [role="button"],
+  input,
+  textarea,
+  select {
     &:focus-visible {
-      @apply outline-none ring-2 ring-primary ring-offset-2;
+      outline: none;
+      ring: 2px solid hsl(var(--primary));
+      ring-offset-width: 2px;
+      ring-offset-color: white;
     }
   }
 }
