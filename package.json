@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "cd client && vite build,
+    "build": "cd client && vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
     "postinstall": "tailwindcss init -p"
