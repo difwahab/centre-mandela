@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Définition de la classe border-border qui utilise ta couleur personnalisée */
+@layer components {
+  .border-border {
+    border-color: theme('colors.border');
+  }
+}
+
+/* Ton reste de styles */
 :root {
   --background: 0 0% 100%;
   --foreground: 20 14.3% 4.1%;
