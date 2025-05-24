@@ -1,14 +1,28 @@
 import express, { type Express } from "express";
 import fs from "fs";
 import path from "path";
+import { createServer as createViteDevServer } from "vite";
 import { type Server } from "http";
-import { fileURLToPath } from "url";
 import { nanoid } from "nanoid";
-import { createServer as createViteDevServer } from "vite"; // ✅ OK en local
+import { fileURLToPath } from "url";
 
+// Résout __dirname en ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Logger simple
+export function log(message: string, source = "express") {
+  const formattedTime = new Date().toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+  });
+
+  console.log(`${formattedTime} [${source}] ${message}`);
+}
+
+// Développement : injecte Vite en middleware
 export async function setupVite(app: Express, server: Server) {
   const clientRoot = path.resolve(__dirname, "../client");
 
@@ -18,7 +32,7 @@ export async function setupVite(app: Express, server: Server) {
     server: {
       middlewareMode: true,
       hmr: { server },
-      watch: { usePolling: true }, // Pour compatibilité Render
+      watch: { usePolling: true }, // pour compatibilité Render
     },
     appType: "custom",
   });
@@ -29,8 +43,8 @@ export async function setupVite(app: Express, server: Server) {
     try {
       const url = req.originalUrl;
       const templatePath = path.resolve(clientRoot, "index.html");
-      let template = await fs.promises.readFile(templatePath, "utf-8");
 
+      let template = await fs.promises.readFile(templatePath, "utf-8");
       template = template.replace(
         `src="/src/main.tsx"`,
         `src="/src/main.tsx?v=${nanoid()}"`
@@ -45,11 +59,12 @@ export async function setupVite(app: Express, server: Server) {
   });
 }
 
+// Production : sert les fichiers statiques du client
 export function serveStatic(app: Express) {
   const dist = path.resolve(__dirname, "../client/dist");
 
   if (!fs.existsSync(dist)) {
-    throw new Error(`Build manquant : ${dist} introuvable.`);
+    throw new Error(`Le dossier client/dist est manquant. Lancez : npm run build`);
   }
 
   app.use(express.static(dist));
