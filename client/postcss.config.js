@@ -1,6 +1,7 @@
+// postcss.config.js
 module.exports = {
   plugins: {
     autoprefixer: {},
-    // ajoute ici d'autres plugins PostCSS si besoin
+    // ajouter d’autres plugins si nécessaire
   }
 }
