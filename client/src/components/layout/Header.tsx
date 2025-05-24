@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useLanguage } from '@/context/LanguageContext'
 import { useState, useEffect } from 'react'
 import { Menu, X } from 'lucide-react'
-import MobileMenu from './MobileMenu'
+import MobileMenu from '../MobileMenu'
 import ThemeToggle from '@/components/ThemeToggle'
 
 const Header = () => {
