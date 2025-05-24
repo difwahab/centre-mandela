@@ -19,7 +19,7 @@ const Home = () => {
   }, [t]);
 
   return (
-    <>
+    <div className="bg-background text-foreground">
       <Hero />
       <About />
       <Services />
@@ -29,7 +29,7 @@ const Home = () => {
       <News />
       <Testimonials />
       <Contact />
-    </>
+    </div>
   );
 };
 
