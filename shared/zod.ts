@@ -1,6 +1,5 @@
-// shared/zod.ts
-import { z } from "zod";
 import { createInsertSchema } from "drizzle-zod";
+import { z } from "zod";
 import { users, appointments, contactMessages, newsPosts } from "./schema";
 
 // Zod insert schemas
@@ -19,7 +18,7 @@ export const insertAppointmentSchema = z.object({
   email: z.string().optional(),
   examType: z.string(),
   preferredDate: z.string(),
-  hasPrescription: z.union([z.literal(0), z.literal(1)]), // SQLite expects 0/1 for booleans
+  hasPrescription: z.union([z.literal(0), z.literal(1)]),
   message: z.string().optional(),
 });
 
@@ -37,7 +36,7 @@ export const insertNewsPostSchema = createInsertSchema(newsPosts).pick({
   category: true,
 });
 
-// Types
+// Optional: Types
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type InsertAppointment = z.infer<typeof insertAppointmentSchema>;
 export type InsertContactMessage = z.infer<typeof insertContactMessageSchema>;
