@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { queryClient, apiRequest } from './lib/queryClient';
-import { useToast } from './hooks/use-toast';
-import { useAuth } from './context/AuthContext';
-import { Button } from './components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui/tabs';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './components/ui/table';
+import { queryClient, apiRequest } from '@/lib/queryClient';
+import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/context/AuthContext';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from './components/ui/badge';
 import { 
   CheckCircle, 
