@@ -12,8 +12,7 @@ import Contact from '@/components/home/Contact';
 
 const Home = () => {
   const { t } = useTranslation();
-  
-  // Update page title
+
   useEffect(() => {
     document.title = t('meta.homeTitle');
   }, [t]);
