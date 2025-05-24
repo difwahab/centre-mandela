@@ -12,6 +12,7 @@ const __dirname = path.dirname(__filename);
 
 const viteLogger = createLogger();
 
+// Logger personnalisé
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
     hour: "numeric",
@@ -23,12 +24,13 @@ export function log(message: string, source = "express") {
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 
+// Mode développement : setup de Vite avec middlewares
 export async function setupVite(app: Express, server: Server) {
   const clientRoot = path.resolve(__dirname, "../client");
 
   const vite = await createViteServer({
     root: clientRoot,
-    configFile: path.resolve(__dirname, "../vite.config.ts"), // Utilise la vraie config Vite
+    configFile: path.resolve(__dirname, "../vite.config.ts"),
     customLogger: {
       ...viteLogger,
       error: (msg, options) => {
@@ -39,29 +41,31 @@ export async function setupVite(app: Express, server: Server) {
     server: {
       middlewareMode: true,
       hmr: { server },
-      allowedHosts: true,
+      allowedHosts: "all",
     },
     appType: "custom",
   });
 
+  // Intègre les middlewares de Vite dans Express
   app.use(vite.middlewares);
 
+  // Render HTML pour toutes les routes côté client
   app.use("*", async (req, res, next) => {
-    const url = req.originalUrl;
-
     try {
+      const url = req.originalUrl;
       const clientTemplate = path.resolve(clientRoot, "index.html");
 
       let template = await fs.promises.readFile(clientTemplate, "utf-8");
 
-      // Ajoute un identifiant unique pour forcer le rechargement
+      // Forcer le rechargement avec un identifiant unique
       template = template.replace(
         `src="/src/main.tsx"`,
-        `src="/src/main.tsx?v=${nanoid()}"`,
+        `src="/src/main.tsx?v=${nanoid()}"`
       );
 
-      const page = await vite.transformIndexHtml(url, template);
-      res.status(200).set({ "Content-Type": "text/html" }).end(page);
+      const html = await vite.transformIndexHtml(url, template);
+
+      res.status(200).set({ "Content-Type": "text/html" }).end(html);
     } catch (e) {
       vite.ssrFixStacktrace(e as Error);
       next(e);
@@ -69,18 +73,19 @@ export async function setupVite(app: Express, server: Server) {
   });
 }
 
+// Mode production : sert les fichiers statiques du client
 export function serveStatic(app: Express) {
   const distPath = path.resolve(__dirname, "../client/dist");
 
   if (!fs.existsSync(distPath)) {
     throw new Error(
-      `Could not find the build directory: ${distPath}, make sure to build the client first`,
+      `Le dossier de build est introuvable : ${distPath}. Assurez-vous d'avoir exécuté le build.`
     );
   }
 
   app.use(express.static(distPath));
 
-  // Redirige toute requête non trouvée vers index.html (SPA fallback)
+  // Fallback pour le routage client (SPA)
   app.use("*", (_req, res) => {
     res.sendFile(path.resolve(distPath, "index.html"));
   });
