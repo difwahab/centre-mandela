@@ -5,6 +5,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import MobileMenu from "@/components/MobileMenu";
 import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -62,6 +63,8 @@ const Header = () => {
 
         {/* Right Actions */}
         <div className="hidden items-center gap-4 md:flex">
+          <ThemeToggle />
+
           <Link href="/espace-medecins/login">
             <Button
               variant="secondary"
