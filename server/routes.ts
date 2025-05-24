@@ -1,64 +1,48 @@
 import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
-import { storage } from "./storage";
 import session from "express-session";
 import MemoryStore from "memorystore";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { z } from "zod";
-import { 
-  insertAppointmentSchema, 
-  insertContactMessageSchema 
-} from "@shared/schema";
-import * as fs from 'fs';
-import * as path from 'path';
-import archiver from 'archiver';
+import * as fs from "fs";
+import * as path from "path";
+import archiver from "archiver";
+
+import { insertAppointmentSchema, insertContactMessageSchema } from "@shared/schema";
+import { storage } from "./storage";
 
 const SessionStore = MemoryStore(session);
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Setup sessions
-  app.use(
-    session({
-      secret: process.env.SESSION_SECRET || "cabinet-benameur-radiologie",
-      resave: false,
-      saveUninitialized: false,
-      cookie: { secure: process.env.NODE_ENV === "production", maxAge: 86400000 }, // 1 day
-      store: new SessionStore({
-        checkPeriod: 86400000, // 1 day
-      }),
-    })
-  );
+  // --- Session setup ---
+  app.use(session({
+    secret: process.env.SESSION_SECRET || "cabinet-benameur-radiologie",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 24 * 60 * 60 * 1000, // 1 jour
+    },
+    store: new SessionStore({ checkPeriod: 86400000 }),
+  }));
 
-  // Setup passport for authentication
+  // --- Passport setup ---
   app.use(passport.initialize());
   app.use(passport.session());
 
-  // Configure passport
-  passport.use(
-    new LocalStrategy(async (username, password, done) => {
-      try {
-        const user = await storage.getUserByUsername(username);
-        if (!user) {
-          return done(null, false, { message: "Nom d'utilisateur incorrect" });
-        }
-        
-        // In a real app, we would compare hashed passwords
-        if (user.password !== password) {
-          return done(null, false, { message: "Mot de passe incorrect" });
-        }
-        
-        return done(null, user);
-      } catch (err) {
-        return done(err);
-      }
-    })
-  );
+  passport.use(new LocalStrategy(async (username, password, done) => {
+    try {
+      const user = await storage.getUserByUsername(username);
+      if (!user) return done(null, false, { message: "Nom d'utilisateur incorrect" });
+      if (user.password !== password) return done(null, false, { message: "Mot de passe incorrect" });
+      return done(null, user);
+    } catch (err) {
+      return done(err);
+    }
+  }));
 
-  passport.serializeUser((user: any, done) => {
-    done(null, user.id);
-  });
-
+  passport.serializeUser((user: any, done) => done(null, user.id));
   passport.deserializeUser(async (id: number, done) => {
     try {
       const user = await storage.getUser(id);
@@ -68,27 +52,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // API Routes
-  
-  // Authentication routes
+  // --- Auth routes ---
   app.post("/api/auth/login", (req, res, next) => {
     passport.authenticate("local", (err: any, user: any, info: any) => {
-      if (err) {
-        return next(err);
-      }
-      if (!user) {
-        return res.status(400).json({ message: info.message });
-      }
+      if (err) return next(err);
+      if (!user) return res.status(400).json({ message: info.message });
       req.logIn(user, (err) => {
-        if (err) {
-          return next(err);
-        }
-        return res.json({ 
-          id: user.id, 
-          username: user.username, 
+        if (err) return next(err);
+        res.json({
+          id: user.id,
+          username: user.username,
           fullName: user.fullName,
           email: user.email,
-          role: user.role
+          role: user.role,
         });
       });
     })(req, res, next);
@@ -96,141 +72,132 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/auth/logout", (req, res) => {
     req.logout((err) => {
-      if (err) {
-        return res.status(500).json({ message: "Error logging out" });
-      }
-      res.json({ message: "Logged out successfully" });
+      if (err) return res.status(500).json({ message: "Erreur lors de la déconnexion" });
+      res.json({ message: "Déconnexion réussie" });
     });
   });
 
   app.get("/api/auth/user", (req, res) => {
-    if (!req.isAuthenticated()) {
-      return res.status(401).json({ message: "Not authenticated" });
-    }
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non authentifié" });
     const user = req.user as any;
-    res.json({ 
-      id: user.id, 
-      username: user.username, 
+    res.json({
+      id: user.id,
+      username: user.username,
       fullName: user.fullName,
       email: user.email,
-      role: user.role
+      role: user.role,
     });
   });
 
-  // Appointment routes
+  // --- Appointments ---
   app.post("/api/appointments", async (req, res) => {
     try {
-      const appointmentData = insertAppointmentSchema.parse(req.body);
-      const appointment = await storage.createAppointment(appointmentData);
+      const data = insertAppointmentSchema.parse(req.body);
+      const appointment = await storage.createAppointment(data);
       res.status(201).json(appointment);
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return res.status(400).json({ message: error.errors });
+        res.status(400).json({ message: error.errors });
+      } else {
+        res.status(500).json({ message: "Erreur lors de la création du rendez-vous" });
       }
-      res.status(500).json({ message: "Error creating appointment" });
     }
   });
 
   app.get("/api/appointments", async (req, res) => {
-    if (!req.isAuthenticated()) {
-      return res.status(401).json({ message: "Not authenticated" });
-    }
-    
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non authentifié" });
     try {
       const appointments = await storage.getAppointments();
       res.json(appointments);
-    } catch (error) {
-      res.status(500).json({ message: "Error retrieving appointments" });
+    } catch {
+      res.status(500).json({ message: "Erreur lors de la récupération des rendez-vous" });
     }
   });
 
   app.patch("/api/appointments/:id/status", async (req, res) => {
-    if (!req.isAuthenticated()) {
-      return res.status(401).json({ message: "Not authenticated" });
-    }
-    
-    const { id } = req.params;
-    const { status } = req.body;
-    
+    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non authentifié" });
     try {
-      const appointment = await storage.updateAppointmentStatus(Number(id), status);
-      if (!appointment) {
-        return res.status(404).json({ message: "Appointment not found" });
-      }
-      res.json(appointment);
-    } catch (error) {
-      res.status(500).json({ message: "Error updating appointment status" });
+      const id = Number(req.params.id);
+      const { status } = req.body;
+      const updated = await storage.updateAppointmentStatus(id, status);
+      if (!updated) return res.status(404).json({ message: "Rendez-vous non trouvé" });
+      res.json(updated);
+    } catch {
+      res.status(500).json({ message: "Erreur lors de la mise à jour du statut" });
     }
   });
 
-  // Contact routes
+  // --- Contact ---
   app.post("/api/contact", async (req, res) => {
     try {
-      const messageData = insertContactMessageSchema.parse(req.body);
-      const message = await storage.createContactMessage(messageData);
+      const data = insertContactMessageSchema.parse(req.body);
+      const message = await storage.createContactMessage(data);
       res.status(201).json(message);
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return res.status(400).json({ message: error.errors });
+        res.status(400).json({ message: error.errors });
+      } else {
+        res.status(500).json({ message: "Erreur lors de l'envoi du message" });
       }
-      res.status(500).json({ message: "Error creating contact message" });
     }
   });
 
-  // News routes
+  // --- News ---
   app.get("/api/news", async (req, res) => {
     try {
       const category = req.query.category as string | undefined;
       const posts = await storage.getNewsPosts(category);
       res.json(posts);
-    } catch (error) {
-      res.status(500).json({ message: "Error retrieving news posts" });
+    } catch {
+      res.status(500).json({ message: "Erreur lors de la récupération des articles" });
     }
   });
 
   app.get("/api/news/:id", async (req, res) => {
-    const { id } = req.params;
-    
     try {
-      const post = await storage.getNewsPost(Number(id));
-      if (!post) {
-        return res.status(404).json({ message: "News post not found" });
-      }
+      const id = Number(req.params.id);
+      const post = await storage.getNewsPost(id);
+      if (!post) return res.status(404).json({ message: "Article non trouvé" });
       res.json(post);
-    } catch (error) {
-      res.status(500).json({ message: "Error retrieving news post" });
+    } catch {
+      res.status(500).json({ message: "Erreur lors de la récupération de l'article" });
     }
   });
 
-  // Route pour télécharger le projet complet en ZIP
+  // --- Download complete project as ZIP ---
   app.get("/download-project", (req, res) => {
-    const archive = archiver('zip', {
-      zlib: { level: 9 } // Niveau de compression maximum
-    });
-    
-    res.attachment('cabinet-benameur-radiologie.zip');
+    const archive = archiver("zip", { zlib: { level: 9 } });
+    res.attachment("cabinet-benameur-radiologie.zip");
     archive.pipe(res);
-    
-    // Ajouter les dossiers principaux du projet
-    const projectRoot = path.resolve('.');
-    
-    // Ajouter les dossiers principaux
-    ['client', 'server', 'shared', 'components.json', 'drizzle.config.ts', 'package.json', 'tsconfig.json', 'vite.config.ts']
-      .forEach(item => {
-        const itemPath = path.join(projectRoot, item);
-        if (fs.existsSync(itemPath)) {
-          const stat = fs.statSync(itemPath);
-          if (stat.isDirectory()) {
-            archive.directory(itemPath, item);
-          } else {
-            archive.file(itemPath, { name: item });
-          }
+
+    const projectRoot = path.resolve(".");
+    const toInclude = [
+      "client",
+      "server",
+      "shared",
+      "components.json",
+      "drizzle.config.ts",
+      "package.json",
+      "tsconfig.json",
+      "vite.config.ts"
+    ];
+
+    toInclude.forEach((item) => {
+      const fullPath = path.join(projectRoot, item);
+      if (fs.existsSync(fullPath)) {
+        const stat = fs.statSync(fullPath);
+        if (stat.isDirectory()) {
+          archive.directory(fullPath, item);
+        } else {
+          archive.file(fullPath, { name: item });
         }
-      });
-    
+      }
+    });
+
     archive.finalize();
   });
 
+  // --- Retourne le serveur HTTP ---
   const httpServer = createServer(app);
   return httpServer;
 }
