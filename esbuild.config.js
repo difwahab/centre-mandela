@@ -1,26 +1,17 @@
+// esbuild.config.js
 const esbuild = require('esbuild');
 
 esbuild.build({
   entryPoints: ['server/index.ts'],
   bundle: true,
   platform: 'node',
-  format: 'esm',
+  format: 'cjs', // CommonJS pour compatibilité avec require()
+  target: 'node18',
   outdir: 'dist',
-  external: [
-    'express',
-    'express-session',
-    'memorystore',
-    'cors',
-    'dotenv',
-    'passport',
-    'passport-local',
-    'zod',
-    'archiver',
-    'drizzle-orm',
-    'drizzle-orm/sqlite-core',
-    'drizzle-orm/better-sqlite3',
-    'better-sqlite3'
-  ],
   sourcemap: true,
   minify: false,
+  external: [
+    // on exclut les modules natifs ou problématiques à packager
+    'better-sqlite3'
+  ]
 }).catch(() => process.exit(1));
