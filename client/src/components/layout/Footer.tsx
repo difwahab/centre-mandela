@@ -1,24 +1,25 @@
 import { Link } from 'wouter';
 import { useTranslation } from 'react-i18next';
-import { Heart } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
+import { Heart, FacebookIcon, InstagramIcon, LinkedinIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  FacebookIcon,
-  InstagramIcon,
-  LinkedinIcon,
-} from 'lucide-react';
 
 const Footer = () => {
   const { t } = useTranslation();
+  const { language } = useLanguage();
+  const isRTL = language === 'ar';
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[var(--color-secondary)] text-[var(--color-on-secondary)] pt-12 pb-6">
+    <footer
+      dir={isRTL ? 'rtl' : 'ltr'}
+      className="bg-[var(--color-secondary)] text-[var(--color-on-secondary)] pt-12 pb-6"
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
           {/* Logo & Socials */}
           <div>
-            <div className="flex items-center mb-4 space-x-2">
+            <div className="flex items-center mb-4 gap-2">
               <Heart className="text-[var(--color-on-secondary)] w-6 h-6" />
               <div>
                 <h3 className="text-lg font-bold">Dr. Benameur</h3>
@@ -26,7 +27,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-[var(--color-on-secondary-muted)] mb-4">{t('footer.description')}</p>
-            <div className="flex space-x-4">
+            <div className="flex gap-4">
               <a
                 href="https://facebook.com"
                 target="_blank"
@@ -112,7 +113,10 @@ const Footer = () => {
             </ul>
             <div className="mt-4">
               <Link href="/#rendez-vous">
-                <Button variant="outline" className="bg-[var(--color-background)] text-[var(--color-secondary)] hover:bg-[var(--color-surface-hover)]">
+                <Button
+                  variant="outline"
+                  className="bg-[var(--color-background)] text-[var(--color-secondary)] hover:bg-[var(--color-surface-hover)]"
+                >
                   {t('appointment.button')}
                 </Button>
               </Link>
@@ -123,7 +127,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-white/20 pt-6 flex flex-col md:flex-row justify-between items-center text-sm text-[var(--color-on-secondary-muted)]">
           <p>© {currentYear} {t('footer.copyright')}</p>
-          <div className="flex space-x-4 mt-2 md:mt-0">
+          <div className="flex gap-4 mt-2 md:mt-0">
             <a href="#" className="hover:underline hover:text-[var(--color-on-secondary)] transition">{t('footer.privacy')}</a>
             <span>|</span>
             <a href="#" className="hover:underline hover:text-[var(--color-on-secondary)] transition">{t('footer.terms')}</a>
