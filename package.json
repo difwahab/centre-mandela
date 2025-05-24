@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite",                            // Pour le développement Vite
-    "build": "vite build",                   // Build production React
-    "preview": "vite preview",               // Pour prévisualiser le build
-    "check": "tsc --noEmit"                  // Vérifie les types côté client
+    "dev": "vite",                            
+    "build": "vite build",              
+    "preview": "vite preview",              
+    "check": "tsc --noEmit"        
   },
   "dependencies": {
     "react": "^18.2.0",
