@@ -1,51 +1,21 @@
-// shared/zod.ts
 import { z } from "zod";
-import { createInsertSchema } from "drizzle-zod";
-import {
-  users,
-  appointments,
-  contactMessages,
-  newsPosts,
-} from "./schema";
 
-// --- Zod insert schemas ---
-
-export const insertUserSchema = createInsertSchema(users).pick({
-  username: true,
-  password: true,
-  fullName: true,
-  email: true,
-  role: true,
-});
-
+// Appointments
 export const insertAppointmentSchema = z.object({
-  firstName: z.string(),
-  lastName: z.string(),
-  phone: z.string(),
-  email: z.string().optional(),
-  examType: z.string(),
-  preferredDate: z.string(),
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
+  phone: z.string().min(5),
+  email: z.string().email().optional(),
+  examType: z.string().min(1),
+  preferredDate: z.string().min(1),
   hasPrescription: z.union([z.literal(0), z.literal(1)]),
   message: z.string().optional(),
 });
 
-export const insertContactMessageSchema = createInsertSchema(contactMessages).pick({
-  name: true,
-  email: true,
-  subject: true,
-  message: true,
+// Contact messages
+export const insertContactMessageSchema = z.object({
+  name: z.string().min(1),
+  email: z.string().email(),
+  subject: z.string().min(1),
+  message: z.string().min(1),
 });
-
-export const insertNewsPostSchema = createInsertSchema(newsPosts).pick({
-  title: true,
-  content: true,
-  imageUrl: true,
-  category: true,
-});
-
-// --- Types TypeScript ---
-
-export type InsertUser = z.infer<typeof insertUserSchema>;
-export type InsertAppointment = z.infer<typeof insertAppointmentSchema>;
-export type InsertContactMessage = z.infer<typeof insertContactMessageSchema>;
-export type InsertNewsPost = z.infer<typeof insertNewsPostSchema>;
