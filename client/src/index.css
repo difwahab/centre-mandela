@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* === VARIABLES LIGHT === */
 :root {
   --background: 0 0% 100%;
   --foreground: 20 14.3% 4.1%;
@@ -25,6 +26,7 @@
   --radius: 0.5rem;
 }
 
+/* === VARIABLES DARK === */
 .dark {
   --background: 240 10% 3.9%;
   --foreground: 0 0% 98%;
@@ -48,30 +50,8 @@
   --radius: 0.5rem;
 }
 
-/* Déclaration manuelle des classes personnalisées à appliquer */
-@layer utilities {
-  .bg-background {
-    background-color: hsl(var(--background));
-  }
-  .text-foreground {
-    color: hsl(var(--foreground));
-  }
-  .border-border {
-    border-color: hsl(var(--border));
-  }
-  .input-bg {
-    background-color: hsl(var(--input));
-  }
-  .ring-color {
-    --tw-ring-color: hsl(var(--ring));
-  }
-  .radius-lg {
-    border-radius: var(--radius);
-  }
-}
-
+/* === STYLES GLOBAUX === */
 @layer base {
-  /* Applique les styles globaux directement, sans @apply sur classes inexistantes */
   html {
     scroll-behavior: smooth;
   }
@@ -88,15 +68,54 @@
 
   a,
   button,
-  [role="button"],
   input,
   textarea,
   select {
-    &:focus-visible {
-      outline: none;
-      ring: 2px solid hsl(var(--primary));
-      ring-offset-width: 2px;
-      ring-offset-color: white;
-    }
+    outline: none;
+  }
+}
+
+/* === CLASSES UTILITAIRES CUSTOM === */
+@layer utilities {
+  .bg-background {
+    background-color: hsl(var(--background));
+  }
+  .text-foreground {
+    color: hsl(var(--foreground));
+  }
+
+  .bg-primary {
+    background-color: hsl(var(--primary));
+  }
+  .text-primary {
+    color: hsl(var(--primary));
+  }
+
+  .bg-secondary {
+    background-color: hsl(var(--secondary));
+  }
+  .text-secondary {
+    color: hsl(var(--secondary));
+  }
+
+  .bg-accent {
+    background-color: hsl(var(--accent));
+  }
+  .text-accent {
+    color: hsl(var(--accent));
+  }
+
+  .border-border {
+    border-color: hsl(var(--border));
+  }
+  .input-bg {
+    background-color: hsl(var(--input));
+  }
+  .ring-color {
+    --tw-ring-color: hsl(var(--ring));
+  }
+
+  .radius-lg {
+    border-radius: var(--radius);
   }
 }
