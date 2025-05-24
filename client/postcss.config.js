@@ -5,3 +5,5 @@ module.exports = {
     // ajouter d’autres plugins si nécessaire
   }
 }
+
+
