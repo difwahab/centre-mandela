@@ -6,6 +6,7 @@ esbuild.build({
   platform: 'node',
   format: 'esm',
   outdir: 'dist',
-  external: [],  // NE PAS externaliser le serveur
+  external: [],       // Ne rien externaliser pour que le point d'entrée soit inclus
   sourcemap: true,
+  minify: false
 }).catch(() => process.exit(1));
