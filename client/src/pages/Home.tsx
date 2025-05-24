@@ -7,7 +7,7 @@ import Equipment from './components/home/Equipment';
 import Appointment from './components/home/Appointment';
 import DoctorPortal from './components/home/DoctorPortal';
 import News from './components/home/News';
-import Testimonials from '@/components/home/Testimonials';
+import Testimonials from './components/home/Testimonials';
 import Contact from './components/home/Contact';
 
 const Home = () => {
