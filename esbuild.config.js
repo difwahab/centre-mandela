@@ -1,4 +1,3 @@
-// esbuild.config.js
 const esbuild = require("esbuild");
 
 esbuild.build({
@@ -11,7 +10,7 @@ esbuild.build({
   minify: false,
   target: "node18",
   external: [
-    // ❌ Empêche esbuild de bundler ces modules dynamiques
+    // ⛔ exclure tous les modules dynamiques
     "express",
     "express-session",
     "memorystore",
@@ -26,6 +25,6 @@ esbuild.build({
     "drizzle-orm/better-sqlite3",
     "better-sqlite3",
     "glob",
-    "drizzle-zod"
+    "drizzle-zod" // ❗️ OBLIGATOIRE
   ]
 }).catch(() => process.exit(1));
