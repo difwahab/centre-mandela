@@ -1,5 +1,5 @@
 import express, { type Express } from "express";
-import { createServer } from "http";
+import { setupVite, serveStatic } from "./vite";
 import helmet from "helmet";
 import cors from "cors";
 import compression from "compression";
