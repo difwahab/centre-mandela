@@ -7,14 +7,20 @@ esbuild.build({
   format: 'esm',
   outdir: 'dist',
   external: [
-    'dotenv',
     'express',
-    'cors',
     'express-session',
     'memorystore',
+    'cors',
+    'dotenv',
     'passport',
-    'passport-local'
+    'passport-local',
+    'zod',
+    'archiver',
+    'drizzle-orm',
+    'drizzle-orm/sqlite-core',
+    'drizzle-orm/better-sqlite3',
+    'better-sqlite3'
   ],
   sourcemap: true,
-  minify: false
+  minify: false,
 }).catch(() => process.exit(1));
