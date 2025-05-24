@@ -1,7 +1,7 @@
 import * as dotenv from "dotenv";
 import { existsSync } from "fs";
 
-// Charge le bon fichier .env selon l'environnement
+// 📦 Chargement du bon fichier .env selon l'environnement
 const envFile = process.env.NODE_ENV === "production" ? ".env.production" : ".env";
 if (existsSync(envFile)) {
   dotenv.config({ path: envFile });
@@ -16,42 +16,38 @@ import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
 
-// ✅ CORS avant tout
+// ✅ Middleware CORS
 app.use(cors({
-  origin: "http://localhost:5173", // ou ton domaine client
+  origin: process.env.NODE_ENV === "production"
+    ? undefined // à adapter avec le vrai domaine Render
+    : "http://localhost:5173",
   credentials: true,
 }));
 
-// Middleware pour parser JSON et URL-encoded
+// ✅ Middlewares de parsing
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Middleware de log des requêtes API
+// ✅ Logger des requêtes API
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
-  let capturedJsonResponse: Record<string, any> | undefined;
+  let capturedJson: any;
 
   const originalJson = res.json;
-  res.json = function (body, ...args) {
-    capturedJsonResponse = body;
-    return originalJson.call(this, body, ...args);
+  res.json = function (body: any) {
+    capturedJson = body;
+    return originalJson.call(this, body);
   };
 
   res.on("finish", () => {
-    const duration = Date.now() - start;
-
     if (path.startsWith("/api")) {
+      const duration = Date.now() - start;
       let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-
-      if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
+      if (capturedJson) {
+        logLine += ` :: ${JSON.stringify(capturedJson)}`;
       }
-
-      if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "…";
-      }
-
+      if (logLine.length > 120) logLine = logLine.slice(0, 119) + "…";
       log(logLine);
     }
   });
@@ -60,26 +56,26 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // ✅ Enregistre les routes API
   const server = await registerRoutes(app);
 
-  // Gestion des erreurs globales
+  // ✅ Gestion globale des erreurs
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
     res.status(status).json({ message });
-    // Optionnel : log erreur ou envoyer à un monitoring ici
-    // throw err; // Ne pas relancer sinon crash serveur
   });
 
-  // Vite en dev, fichiers statiques en prod
+  // ✅ Dev : Vite middleware | Prod : fichiers statiques
   if (process.env.NODE_ENV === "development") {
     await setupVite(app, server);
   } else {
     serveStatic(app);
   }
 
-  const port = 5000;
-  server.listen({ port, host: "0.0.0.0", reusePort: true }, () => {
-    log(`serving on port ${port}`);
+  // ✅ Démarrage du serveur
+  const port = process.env.PORT ? parseInt(process.env.PORT) : 5000;
+  server.listen({ port, host: "0.0.0.0" }, () => {
+    log(`✅ Server running on http://localhost:${port}`);
   });
 })();
