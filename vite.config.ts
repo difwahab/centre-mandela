@@ -19,12 +19,12 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "client/src"),
       "@shared": path.resolve(__dirname, "shared"),
-      "wouter": path.resolve(__dirname, "node_modules/wouter/out/index.js"), // 🔧 Résolution forcée
     },
+    conditions: ["module", "import"], // ✅ Favorise l'import ESM
   },
 
   optimizeDeps: {
-    include: ["wouter"], // ✅ Préchargement pour dev
+    include: ["wouter"], // ✅ Précharge wouter en mode dev
   },
 
   build: {
