@@ -1,3 +1,4 @@
+// esbuild.config.js
 const esbuild = require("esbuild");
 
 esbuild.build({
@@ -8,7 +9,9 @@ esbuild.build({
   outdir: "dist",
   sourcemap: true,
   minify: false,
+  target: "node18",
   external: [
+    // dépendances node qu'on ne veut pas bundler
     "express",
     "express-session",
     "memorystore",
@@ -23,9 +26,6 @@ esbuild.build({
     "drizzle-orm/better-sqlite3",
     "better-sqlite3",
     "glob",
-    "drizzle-zod" // ✅ Très important
-  ],
-}).catch((error) => {
-  console.error("❌ esbuild failed:", error);
-  process.exit(1);
-});
+    "drizzle-zod"
+  ]
+}).catch(() => process.exit(1));
