@@ -1,7 +1,6 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    // On ne redéfinit pas "types" ici, ils viennent du tsconfig racine
     "baseUrl": ".",
     "jsx": "react-jsx",
     "paths": {
