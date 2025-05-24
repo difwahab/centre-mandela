@@ -1,7 +1,7 @@
 import express, { type Express } from "express";
 import fs from "fs";
 import path from "path";
-import { createServer as createViteServer, createLogger } from "vite";
+import { createServer as createViteDevServer } from "vite";
 import { type Server } from "http";
 import { nanoid } from "nanoid";
 import { fileURLToPath } from "url";
@@ -10,9 +10,7 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const viteLogger = createLogger();
-
-// Logger personnalisé
+// Logger simple
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
     hour: "numeric",
@@ -24,32 +22,25 @@ export function log(message: string, source = "express") {
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 
-// Mode développement : setup de Vite avec middlewares
+// Mode développement : configure Vite en middleware
 export async function setupVite(app: Express, server: Server) {
   const clientRoot = path.resolve(__dirname, "../client");
 
-  const vite = await createViteServer({
+  const vite = await createViteDevServer({
     root: clientRoot,
     configFile: path.resolve(__dirname, "../vite.config.ts"),
-    customLogger: {
-      ...viteLogger,
-      error: (msg, options) => {
-        viteLogger.error(msg, options);
-        process.exit(1);
-      },
-    },
     server: {
       middlewareMode: true,
-      hmr: { server },
+      hmr: {
+        server,
+      },
       allowedHosts: "all",
     },
     appType: "custom",
   });
 
-  // Intègre les middlewares de Vite dans Express
   app.use(vite.middlewares);
 
-  // Render HTML pour toutes les routes côté client
   app.use("*", async (req, res, next) => {
     try {
       const url = req.originalUrl;
@@ -57,7 +48,6 @@ export async function setupVite(app: Express, server: Server) {
 
       let template = await fs.promises.readFile(clientTemplate, "utf-8");
 
-      // Forcer le rechargement avec un identifiant unique
       template = template.replace(
         `src="/src/main.tsx"`,
         `src="/src/main.tsx?v=${nanoid()}"`
@@ -79,13 +69,12 @@ export function serveStatic(app: Express) {
 
   if (!fs.existsSync(distPath)) {
     throw new Error(
-      `Le dossier de build est introuvable : ${distPath}. Assurez-vous d'avoir exécuté le build.`
+      `Le dossier de build est introuvable : ${distPath}. Veuillez lancer "npm run build".`
     );
   }
 
   app.use(express.static(distPath));
 
-  // Fallback pour le routage client (SPA)
   app.use("*", (_req, res) => {
     res.sendFile(path.resolve(distPath, "index.html"));
   });
