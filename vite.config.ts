@@ -43,7 +43,7 @@ export default {
   },
 
   css: {
-    postcss: path.resolve(__dirname, "client/postcss.config.js"),
+    postcss: path.resolve(__dirname, "postcss.config.cjs"),
   },
 
   build: {
