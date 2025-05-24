@@ -1,46 +1,51 @@
 import {
-  users, type User, type InsertUser,
-  appointments, type Appointment, type InsertAppointment,
-  contactMessages, type ContactMessage, type InsertContactMessage,
-  newsPosts, type NewsPost, type InsertNewsPost
+  users,
+  appointments,
+  contactMessages,
+  newsPosts,
+} from "@shared/schema";
+import type {
+  User,
+  InsertUser,
+  Appointment,
+  InsertAppointment,
+  ContactMessage,
+  InsertContactMessage,
+  NewsPost,
+  InsertNewsPost
 } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 
 // Storage interface
 export interface IStorage {
-  // User methods
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
-  
-  // Appointment methods
+
   getAppointments(): Promise<Appointment[]>;
   getAppointment(id: number): Promise<Appointment | undefined>;
   createAppointment(appointment: InsertAppointment): Promise<Appointment>;
   updateAppointmentStatus(id: number, status: string): Promise<Appointment | undefined>;
-  
-  // Contact methods
+
   getContactMessages(): Promise<ContactMessage[]>;
   createContactMessage(message: InsertContactMessage): Promise<ContactMessage>;
-  
-  // News methods
+
   getNewsPosts(category?: string): Promise<NewsPost[]>;
   getNewsPost(id: number): Promise<NewsPost | undefined>;
   createNewsPost(post: InsertNewsPost): Promise<NewsPost>;
 }
 
-// Database storage implementation
+// Implementation
 export class DatabaseStorage implements IStorage {
-  // User methods
   async getUser(id: number): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
-    return user || undefined;
+    return user;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.username, username));
-    return user || undefined;
+    return user;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
@@ -48,23 +53,22 @@ export class DatabaseStorage implements IStorage {
       .insert(users)
       .values({
         ...insertUser,
-        role: insertUser.role || 'user',
+        role: insertUser.role ?? "user",
         createdAt: new Date().toISOString()
       })
       .returning();
     return user;
   }
-  
-  // Appointment methods
+
   async getAppointments(): Promise<Appointment[]> {
     return await db.select().from(appointments);
   }
-  
+
   async getAppointment(id: number): Promise<Appointment | undefined> {
     const [appointment] = await db.select().from(appointments).where(eq(appointments.id, id));
-    return appointment || undefined;
+    return appointment;
   }
-  
+
   async createAppointment(insertAppointment: InsertAppointment): Promise<Appointment> {
     const [appointment] = await db
       .insert(appointments)
@@ -72,27 +76,26 @@ export class DatabaseStorage implements IStorage {
         ...insertAppointment,
         status: "pending",
         createdAt: new Date().toISOString(),
-        email: insertAppointment.email || null,
-        message: insertAppointment.message || null
+        email: insertAppointment.email ?? null,
+        message: insertAppointment.message ?? null
       })
       .returning();
     return appointment;
   }
-  
+
   async updateAppointmentStatus(id: number, status: string): Promise<Appointment | undefined> {
-    const [updatedAppointment] = await db
+    const [updated] = await db
       .update(appointments)
       .set({ status })
       .where(eq(appointments.id, id))
       .returning();
-    return updatedAppointment || undefined;
+    return updated;
   }
-  
-  // Contact methods
+
   async getContactMessages(): Promise<ContactMessage[]> {
     return await db.select().from(contactMessages);
   }
-  
+
   async createContactMessage(insertMessage: InsertContactMessage): Promise<ContactMessage> {
     const [message] = await db
       .insert(contactMessages)
@@ -103,8 +106,7 @@ export class DatabaseStorage implements IStorage {
       .returning();
     return message;
   }
-  
-  // News methods
+
   async getNewsPosts(category?: string): Promise<NewsPost[]> {
     if (category) {
       return await db.select().from(newsPosts).where(eq(newsPosts.category, category));
@@ -114,7 +116,7 @@ export class DatabaseStorage implements IStorage {
 
   async getNewsPost(id: number): Promise<NewsPost | undefined> {
     const [post] = await db.select().from(newsPosts).where(eq(newsPosts.id, id));
-    return post || undefined;
+    return post;
   }
 
   async createNewsPost(insertPost: InsertNewsPost): Promise<NewsPost> {
@@ -122,8 +124,8 @@ export class DatabaseStorage implements IStorage {
       .insert(newsPosts)
       .values({
         ...insertPost,
-        category: insertPost.category || 'news',
-        imageUrl: insertPost.imageUrl || null,
+        category: insertPost.category ?? "news",
+        imageUrl: insertPost.imageUrl ?? null,
         publishDate: new Date().toISOString()
       })
       .returning();
@@ -131,61 +133,61 @@ export class DatabaseStorage implements IStorage {
   }
 }
 
-// Fonction pour alimenter la base de données avec des données initiales
-async function seedDatabase(dbStorage: DatabaseStorage) {
+// Seed function
+async function seedDatabase(storage: DatabaseStorage) {
   try {
-    const adminUser = await dbStorage.getUserByUsername("drbenameur");
-    
-    if (!adminUser) {
-      await dbStorage.createUser({
+    const admin = await storage.getUserByUsername("drbenameur");
+
+    if (!admin) {
+      await storage.createUser({
         username: "drbenameur",
         password: "securepassword",
         fullName: "Dr. Benameur",
         email: "contact@cabinet-benameur.com",
         role: "admin"
       });
-      
-      await dbStorage.createNewsPost({
+
+      await storage.createNewsPost({
         title: "Acquisition d'un nouvel équipement IRM 3 Tesla",
-        content: "Le Cabinet de Radiologie du Dr. Benameur est fier d'annoncer l'acquisition d'un nouvel appareil IRM 3 Tesla offrant une qualité d'image exceptionnelle et un confort amélioré pour nos patients.",
+        content: "Le Cabinet de Radiologie du Dr. Benameur est fier d'annoncer l'acquisition d'un nouvel appareil IRM 3 Tesla...",
         imageUrl: "https://images.unsplash.com/photo-1530497610245-94d3c16cda28?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=450",
         category: "news"
       });
 
-      await dbStorage.createNewsPost({
+      await storage.createNewsPost({
         title: "Participation au Congrès International de Radiologie",
-        content: "Le Dr. Benameur a participé au dernier Congrès International de Radiologie à Paris, où il a présenté ses travaux sur les nouvelles techniques d'imagerie neurologique.",
+        content: "Le Dr. Benameur a participé au dernier Congrès International de Radiologie à Paris...",
         imageUrl: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=450",
         category: "news"
       });
 
-      await dbStorage.createNewsPost({
+      await storage.createNewsPost({
         title: "L'importance du dépistage précoce par imagerie",
-        content: "Découvrez pourquoi l'imagerie médicale joue un rôle crucial dans le dépistage précoce de nombreuses pathologies et comment elle peut contribuer à améliorer les chances de guérison.",
+        content: "Découvrez pourquoi l'imagerie médicale joue un rôle crucial...",
         imageUrl: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=450",
         category: "news"
       });
 
-      await dbStorage.createNewsPost({
+      await storage.createNewsPost({
         title: "Comment se préparer à un examen IRM ?",
-        content: "L'IRM est un examen indolore qui nécessite néanmoins une préparation spécifique. Évitez de porter des objets métalliques, informez-nous de vos antécédents médicaux et suivez les consignes de jeûne si nécessaire.",
+        content: "L'IRM est un examen indolore qui nécessite néanmoins une préparation spécifique...",
         imageUrl: null,
         category: "health-tips"
       });
 
-      await dbStorage.createNewsPost({
+      await storage.createNewsPost({
         title: "Radiographie et grossesse : ce qu'il faut savoir",
-        content: "Pendant la grossesse, certains examens radiologiques peuvent être réalisés avec des précautions spécifiques. Il est essentiel d'informer votre radiologue de votre grossesse pour adapter le protocole.",
+        content: "Pendant la grossesse, certains examens radiologiques peuvent être réalisés avec précautions...",
         imageUrl: null,
         category: "health-tips"
       });
 
-      console.log("Base de données initialisée avec succès");
+      console.log("✅ Base de données initialisée avec succès");
     } else {
-      console.log("La base de données contient déjà les données initiales");
+      console.log("ℹ️ Données déjà présentes dans la base");
     }
   } catch (error) {
-    console.error("Erreur lors de l'initialisation de la base de données:", error);
+    console.error("❌ Erreur lors du seed de la base :", error);
   }
 }
 
