@@ -1,26 +1,26 @@
-import express, { type Express } from "express";
+import type { Express } from "express";
 import fs from "fs";
 import path from "path";
-import { createServer as createViteDevServer } from "vite/node"; // ✅ Corrigé ici
-import { type Server } from "http";
-import { nanoid } from "nanoid";
 import { fileURLToPath } from "url";
+import { nanoid } from "nanoid";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export function log(message: string, source = "express") {
-  const formattedTime = new Date().toLocaleTimeString("en-US", {
+  const time = new Date().toLocaleTimeString("en-US", {
     hour: "numeric",
     minute: "2-digit",
     second: "2-digit",
     hour12: true,
   });
-
-  console.log(`${formattedTime} [${source}] ${message}`);
+  console.log(`${time} [${source}] ${message}`);
 }
 
-export async function setupVite(app: Express, server: Server) {
+export async function setupVite(app: Express, server: any) {
+  // ✅ Import dynamique pour éviter de casser la build
+  const { createServer: createViteDevServer } = await import("vite");
+
   const clientRoot = path.resolve(__dirname, "../client");
 
   const vite = await createViteDevServer({
@@ -29,7 +29,7 @@ export async function setupVite(app: Express, server: Server) {
     server: {
       middlewareMode: true,
       hmr: { server },
-      watch: { usePolling: true },
+      allowedHosts: "all",
     },
     appType: "custom",
   });
@@ -40,8 +40,8 @@ export async function setupVite(app: Express, server: Server) {
     try {
       const url = req.originalUrl;
       const templatePath = path.resolve(clientRoot, "index.html");
-
       let template = await fs.promises.readFile(templatePath, "utf-8");
+
       template = template.replace(
         `src="/src/main.tsx"`,
         `src="/src/main.tsx?v=${nanoid()}"`
@@ -57,14 +57,15 @@ export async function setupVite(app: Express, server: Server) {
 }
 
 export function serveStatic(app: Express) {
-  const dist = path.resolve(__dirname, "../client/dist");
+  const distPath = path.resolve(__dirname, "../client/dist");
 
-  if (!fs.existsSync(dist)) {
-    throw new Error(`Le dossier client/dist est manquant. Lancez : npm run build`);
+  if (!fs.existsSync(distPath)) {
+    throw new Error(`Build non trouvé : ${distPath}. Exécute "npm run build"`);
   }
 
-  app.use(express.static(dist));
-  app.use("*", (_, res) => {
-    res.sendFile(path.resolve(dist, "index.html"));
+  app.use((await import("express")).default.static(distPath));
+
+  app.use("*", (_req, res) => {
+    res.sendFile(path.resolve(distPath, "index.html"));
   });
 }
