@@ -8,23 +8,21 @@ import DoctorDashboard from "@/pages/DoctorDashboard";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import BackToTop from "@/components/BackToTop";
-import { useAuth } from "@/context/AuthContext";
-import { AuthProvider } from "@/context/AuthContext";
+import { useAuth, AuthProvider } from "@/context/AuthContext";
 import { LanguageProvider } from "@/context/LanguageContext";
-import { useState, useEffect } from "react";
+import { ComponentType } from "react";
 
 type ProtectedRouteProps = {
-  component: React.ComponentType;
+  component: ComponentType;
 };
 
-// ✅ Typage explicite de `component` pour éviter TS7031
 function ProtectedRoute({ component: Component }: ProtectedRouteProps) {
   const { user, isLoading } = useAuth();
-  
+
   if (isLoading) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
   }
-  
+
   return user ? <Component /> : <DoctorLogin />;
 }
 
