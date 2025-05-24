@@ -1,4 +1,4 @@
-import { defineConfig } from "vitest/config"; // <-- au lieu de "vite"
+import { defineConfig } from "vitest/config"; // c'est ok
 import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
 import path from "path";
@@ -18,6 +18,9 @@ export default defineConfig({
       "@": path.resolve(__dirname, "client/src"),
       "@shared": path.resolve(__dirname, "shared"),
     },
+  },
+  optimizeDeps: {
+    include: ["wouter"], // ✅ Ajout ici
   },
   build: {
     outDir: path.resolve(__dirname, "dist/public"),
