@@ -10,21 +10,18 @@ const __dirname = path.dirname(__filename);
 export default defineConfig({
   root: path.resolve(__dirname, "client"),
 
-  plugins: [
-    react(),
-    tsconfigPaths(),
-  ],
+  plugins: [react(), tsconfigPaths()],
 
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "client/src"),
       "@shared": path.resolve(__dirname, "shared"),
     },
-    conditions: ["module", "import"], // ✅ Favorise l'import ESM
+    conditions: ["module", "import"], // ← Essentiel pour bien gérer ESM comme wouter
   },
 
   optimizeDeps: {
-    include: ["wouter"], // ✅ Précharge wouter en mode dev
+    include: ["wouter"], // ← précharge OK en dev
   },
 
   build: {
