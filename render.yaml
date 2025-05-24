@@ -3,8 +3,8 @@ services:
     name: my-app-server
     env: node
     plan: free
-    buildCommand: pnpm install && pnpm --filter client build
-    startCommand: node server/index.js
+    buildCommand: pnpm install && pnpm build
+    startCommand: pnpm start
     envVars:
       - key: NODE_ENV
         value: production
