@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 import animate from "tailwindcss-animate";
 import typography from "@tailwindcss/typography";
 
@@ -81,75 +82,72 @@ const config: Config = {
           to: { height: "0" },
         },
       },
+
       animation: {
         "accordion-down": "accordion-down 0.3s ease-out",
         "accordion-up": "accordion-up 0.3s ease-out",
       },
-
-      typography: ({ theme }) => ({
-        DEFAULT: {
-          css: {
-            color: theme("colors.foreground"),
-            a: {
-              color: theme("colors.primary.DEFAULT"),
-              textDecoration: "underline",
-              fontWeight: "500",
-              "&:hover": {
-                color: theme("colors.primary.foreground"),
-              },
-            },
-            h1: {
-              fontWeight: "700",
-              fontSize: theme("fontSize.4xl"),
-              marginBottom: "0.75em",
-              color: theme("colors.foreground"),
-            },
-            h2: {
-              fontWeight: "600",
-              fontSize: theme("fontSize.3xl"),
-              marginBottom: "0.5em",
-              color: theme("colors.foreground"),
-            },
-            h3: {
-              fontWeight: "600",
-              fontSize: theme("fontSize.2xl"),
-              marginBottom: "0.5em",
-              color: theme("colors.foreground"),
-            },
-            p: {
-              marginBottom: "1em",
-              lineHeight: "1.75",
-              color: theme("colors.foreground"),
-            },
-            code: {
-              backgroundColor: theme("colors.muted.DEFAULT"),
-              color: theme("colors.foreground"),
-              padding: "0.25rem 0.375rem",
-              borderRadius: "0.25rem",
-              fontSize: "0.875em",
-            },
-            blockquote: {
-              fontStyle: "italic",
-              borderLeft: `4px solid ${theme("colors.muted.DEFAULT")}`,
-              paddingLeft: "1em",
-              color: theme("colors.muted.foreground"),
-            },
-            ul: {
-              listStyleType: "disc",
-              paddingLeft: "1.5em",
-            },
-            ol: {
-              listStyleType: "decimal",
-              paddingLeft: "1.5em",
-            },
-          },
-        },
-      }),
     },
   },
   plugins: [
     animate,
     typography,
+    plugin(({ addBase, theme }) => {
+      addBase({
+        "h1": {
+          fontWeight: "700",
+          fontSize: theme("fontSize.4xl"),
+          marginBottom: "0.75em",
+          color: theme("colors.foreground"),
+        },
+        "h2": {
+          fontWeight: "600",
+          fontSize: theme("fontSize.3xl"),
+          marginBottom: "0.5em",
+          color: theme("colors.foreground"),
+        },
+        "h3": {
+          fontWeight: "600",
+          fontSize: theme("fontSize.2xl"),
+          marginBottom: "0.5em",
+          color: theme("colors.foreground"),
+        },
+        "p": {
+          marginBottom: "1em",
+          lineHeight: "1.75",
+          color: theme("colors.foreground"),
+        },
+        "a": {
+          color: theme("colors.primary.DEFAULT"),
+          textDecoration: "underline",
+          fontWeight: "500",
+        },
+        "a:hover": {
+          color: theme("colors.primary.foreground"),
+        },
+        "code": {
+          backgroundColor: theme("colors.muted.DEFAULT"),
+          color: theme("colors.foreground"),
+          padding: "0.25rem 0.375rem",
+          borderRadius: "0.25rem",
+          fontSize: "0.875em",
+        },
+        "blockquote": {
+          fontStyle: "italic",
+          borderLeft: `4px solid ${theme("colors.muted.DEFAULT")}`,
+          paddingLeft: "1em",
+          color: theme("colors.muted.foreground"),
+        },
+        "ul": {
+          listStyleType: "disc",
+          paddingLeft: "1.5em",
+        },
+        "ol": {
+          listStyleType: "decimal",
+          paddingLeft: "1.5em",
+        },
+      });
+    }),
   ],
 };
 
