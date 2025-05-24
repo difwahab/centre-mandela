@@ -192,3 +192,63 @@ async function seedDatabase(dbStorage: DatabaseStorage) {
 export const storage = new DatabaseStorage();
 
 seedDatabase(storage).catch(console.error);
+
+export function getAppointment(arg0: number) {
+    throw new Error("Function not implemented.");
+}
+export function getUsers() {
+    throw new Error("Function not implemented.");
+}
+
+export function createUser(data: { username: string; password: string; fullName: string; email: string; role?: string | undefined; }) {
+    throw new Error("Function not implemented.");
+}
+
+export function deleteAppointment(arg0: number) {
+    throw new Error("Function not implemented.");
+}
+
+export function getContactMessages() {
+    throw new Error("Function not implemented.");
+}
+
+export function deleteContactMessage(arg0: number) {
+    throw new Error("Function not implemented.");
+}
+
+export function createNewsPost(data: { title: string; content: string; imageUrl?: string | null | undefined; category?: string | undefined; }) {
+    throw new Error("Function not implemented.");
+}
+
+export function deleteNewsPost(arg0: number) {
+    throw new Error("Function not implemented.");
+}
+
+export function createUser(data: { username: string; password: string; fullName: string; email: string; role?: string | undefined; }) {
+    throw new Error("Function not implemented.");
+}
+
+export function deleteAppointment(arg0: number) {
+    throw new Error("Function not implemented.");
+}
+
+export function getContactMessages() {
+    throw new Error("Function not implemented.");
+}
+
+export function deleteContactMessage(arg0: number) {
+    throw new Error("Function not implemented.");
+}
+
+export function createNewsPost(data: { title: string; content: string; imageUrl?: string | null | undefined; category?: string | undefined; }) {
+    throw new Error("Function not implemented.");
+}
+
+export function deleteNewsPost(arg0: number) {
+    throw new Error("Function not implemented.");
+}
+
+export function getUsers() {
+    throw new Error("Function not implemented.");
+}
+

@@ -1,4 +1,4 @@
-import { defineConfig } from "vitest/config"; // <-- au lieu de "vite"
+import { defineConfig } from "vitest/config"; // pour config Vitest
 import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
 import path from "path";
@@ -22,9 +22,28 @@ export default defineConfig({
   build: {
     outDir: path.resolve(__dirname, "dist/public"),
     emptyOutDir: true,
+    commonjsOptions: {
+      include: [/node_modules/],
+    },
   },
   css: {
     postcss: path.resolve(__dirname, "client/postcss.config.js"),
+  },
+  optimizeDeps: {
+    include: [
+      "wouter",
+      "react-hook-form",
+      "@radix-ui/react-tooltip",
+      "@hookform/resolvers/zod",
+    ],
+  },
+  ssr: {
+    noExternal: [
+      "wouter",
+      "react-hook-form",
+      "@radix-ui/react-tooltip",
+      "@hookform/resolvers/zod",
+    ],
   },
   test: {
     globals: true,

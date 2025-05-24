@@ -1,11 +1,11 @@
-import {
-  sqliteTable,
-  text,
-  integer,
-} from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
+
+// ─────────────────────────────
+// 🧩 Tables
+// ─────────────────────────────
 
 // Users schema
 export const users = sqliteTable("users", {
@@ -27,7 +27,7 @@ export const appointments = sqliteTable("appointments", {
   email: text("email"),
   examType: text("exam_type").notNull(),
   preferredDate: text("preferred_date").notNull(),
-  hasPrescription: integer("has_prescription").notNull(), // boolean as 0 or 1
+  hasPrescription: integer("has_prescription").notNull(), // 0 or 1
   message: text("message"),
   status: text("status").notNull().default("pending"),
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
@@ -53,7 +53,10 @@ export const newsPosts = sqliteTable("news_posts", {
   category: text("category").notNull().default("news"),
 });
 
-// Zod insert schemas
+// ─────────────────────────────
+// ✅ Insert Schemas (Zod)
+// ─────────────────────────────
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -69,7 +72,7 @@ export const insertAppointmentSchema = z.object({
   email: z.string().optional(),
   examType: z.string(),
   preferredDate: z.string(),
-  hasPrescription: z.union([z.literal(0), z.literal(1)]), // SQLite expects 0/1 for booleans
+  hasPrescription: z.union([z.literal(0), z.literal(1)]),
   message: z.string().optional(),
 });
 
@@ -87,7 +90,10 @@ export const insertNewsPostSchema = createInsertSchema(newsPosts).pick({
   category: true,
 });
 
-// TypeScript types
+// ─────────────────────────────
+// 🧾 Types
+// ─────────────────────────────
+
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
 

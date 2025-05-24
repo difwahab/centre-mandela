@@ -1,0 +1,69 @@
+import * as express from "express";
+import * as queries from "../shared/queries";
+import { insertUserSchema, insertAppointmentSchema, insertContactMessageSchema, insertNewsPostSchema } from "../shared/schema";
+
+export const apiRouter = express.Router();
+
+// ─────────────────────────────
+// 🔐 Users
+// ─────────────────────────────
+
+apiRouter.get("/users", async (_req, res) => {
+  const users = await queries.getAllUsers();
+  res.json(users);
+});
+
+apiRouter.post("/users", async (req, res) => {
+  const parsed = insertUserSchema.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json(parsed.error);
+  const user = await queries.createUser(parsed.data);
+  res.status(201).json(user);
+});
+
+// ─────────────────────────────
+// 📝 Appointments
+// ─────────────────────────────
+
+apiRouter.get("/appointments", async (_req, res) => {
+  const appointments = await queries.getAllAppointments();
+  res.json(appointments);
+});
+
+apiRouter.post("/appointments", async (req, res) => {
+  const parsed = insertAppointmentSchema.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json(parsed.error);
+  const appointment = await queries.createAppointment(parsed.data);
+  res.status(201).json(appointment);
+});
+
+// ─────────────────────────────
+// 📩 Contact Messages
+// ─────────────────────────────
+
+apiRouter.get("/contact-messages", async (_req, res) => {
+  const messages = await queries.getAllContactMessages();
+  res.json(messages);
+});
+
+apiRouter.post("/contact-messages", async (req, res) => {
+  const parsed = insertContactMessageSchema.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json(parsed.error);
+  const message = await queries.createContactMessage(parsed.data);
+  res.status(201).json(message);
+});
+
+// ─────────────────────────────
+// 📰 News Posts
+// ─────────────────────────────
+
+apiRouter.get("/news-posts", async (_req, res) => {
+  const posts = await queries.getAllNewsPosts();
+  res.json(posts);
+});
+
+apiRouter.post("/news-posts", async (req, res) => {
+  const parsed = insertNewsPostSchema.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json(parsed.error);
+  const post = await queries.createNewsPost(parsed.data);
+  res.status(201).json(post);
+});
