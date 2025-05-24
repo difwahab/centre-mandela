@@ -10,24 +10,17 @@ const __dirname = path.dirname(__filename);
 export default defineConfig({
   root: path.resolve(__dirname, "client"),
 
-  plugins: [
-    react(),
-    tsconfigPaths(),
-  ],
+  plugins: [react(), tsconfigPaths()],
 
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "client/src"),
       "@shared": path.resolve(__dirname, "shared"),
-      // ✅ Forcer le chemin ESM proprement pour wouter
-      "wouter": path.resolve(__dirname, "node_modules/wouter/index.mjs"),
     },
-    // ✅ Aide à résoudre les modules au format ESM
-    conditions: ["module", "import"],
   },
 
   optimizeDeps: {
-    include: ["wouter"], // ✅ Préchargement en mode dev
+    include: ["wouter"],
   },
 
   build: {
