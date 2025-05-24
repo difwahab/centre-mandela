@@ -23,3 +23,19 @@ centre-mandela/
 ├── tsconfig.json
 ├── tsconfig.paths.json
 ├── vitest.setup.ts
+
+Détails des dossiers principaux :
+client/ : Contient le code source du frontend, probablement une application React.
+server/ : Contient le code backend, probablement une application Express.
+shared/ : Contient des modules ou des types partagés entre le frontend et le backend.
+data/ : Peut contenir des fichiers de données statiques ou des scripts liés à la base de données.
+scripts/ : Contient des scripts utilitaires pour des tâches automatisées.
+test/ : Contient les tests unitaires ou d'intégration.
+
+📄 Fichiers de configuration notables :
+package.json : Définit les dépendances et les scripts du projet.
+tsconfig.json : Configuration TypeScript.
+drizzle.config.ts : Configuration pour Drizzle ORM.
+esbuild.config.js : Configuration pour le bundler esbuild.
+tailwind.config.ts : Configuration pour Tailwind CSS.
+render.yaml : Configuration pour le déploiement sur Render.
