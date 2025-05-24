@@ -8,8 +8,9 @@ esbuild.build({
   outdir: "dist",
   sourcemap: true,
   minify: false,
+  target: ["node18"],
   external: [
-    // modules Node et natives que esbuild ne doit pas inclure
+    // Modules Node.js natifs ou sensibles au bundling
     "express",
     "express-session",
     "memorystore",
@@ -23,9 +24,9 @@ esbuild.build({
     "drizzle-orm/sqlite-core",
     "drizzle-orm/better-sqlite3",
     "better-sqlite3",
-    "glob", // ✅ indispensable pour éviter l'erreur
+    "glob", // ✅ Ajout essentiel
   ],
 }).catch((err) => {
-  console.error(err);
+  console.error("Build failed:", err);
   process.exit(1);
 });
