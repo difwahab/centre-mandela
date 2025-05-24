@@ -23,6 +23,9 @@ esbuild.build({
     'drizzle-orm/better-sqlite3',
     'better-sqlite3',
     'glob',
-    'drizzle-zod' // ✅ ajout de drizzle-zod ici
+    'drizzle-zod' // ✅ Important : bien ici
   ],
-}).catch(() => process.exit(1));
+}).catch((error) => {
+  console.error("❌ esbuild failed:", error);
+  process.exit(1);
+});
