@@ -1,0 +1,25 @@
+centre-mandela/
+├── .vscode/
+├── client/
+├── data/
+├── node_modules/
+├── scripts/
+├── server/
+├── shared/
+├── test/
+├── A supprimer/
+├── .env
+├── .env.production
+├── .gitignore
+├── components.json
+├── db.sqlite
+├── drizzle.config.ts
+├── esbuild.config.js
+├── package-lock.json
+├── package.json
+├── postcss.config.cjs
+├── render.yaml
+├── tailwind.config.ts
+├── tsconfig.json
+├── tsconfig.paths.json
+├── vitest.setup.ts
