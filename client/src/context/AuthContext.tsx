@@ -20,7 +20,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
@@ -32,24 +32,29 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // Check if user is already logged in on mount
   useEffect(() => {
-    const checkAuthStatus = async () => {
+    let isMounted = true;
+
+    const fetchUser = async () => {
       try {
         const response = await apiRequest('GET', '/api/auth/user');
-        const userData = await response.json();
-        setUser(userData);
+        if (!response.ok) throw new Error('Unauthorized');
+        const userData: User = await response.json();
+        if (isMounted) setUser(userData);
       } catch (error) {
-        // User is not authenticated, clear any stale state
-        setUser(null);
+        if (isMounted) setUser(null);
       } finally {
-        setIsLoading(false);
+        if (isMounted) setIsLoading(false);
       }
     };
 
-    checkAuthStatus();
+    fetchUser();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const login = (userData: User) => {
@@ -60,12 +65,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setUser(null);
   };
 
-  const value = {
-    user,
-    login,
-    logout,
-    isLoading,
-  };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, login, logout, isLoading }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
