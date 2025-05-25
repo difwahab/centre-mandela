@@ -4,7 +4,6 @@ import helmet from "helmet";
 import cors from "cors";
 import compression from "compression";
 import path from "path";
-
 import { setupVite, serveStatic, log } from "./vite";
 import { registerRoutes } from "./routes";
 
@@ -14,34 +13,36 @@ const PORT = Number(process.env.PORT) || 3000;
 const app: Express = express();
 const httpServer = createServer(app);
 
-// Middlewares globaux
+// 🌐 Middlewares globaux
 app.use(helmet());
 app.use(cors());
 app.use(compression());
 app.use(express.json());
 
-// Middleware pour servir les fichiers statiques (ex: /uploads/*.jpg)
-app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+// 📁 Fichiers statiques : /uploads/*.jpg, *.pdf, etc.
+app.use("/uploads", express.static(path.resolve(__dirname, "../uploads")));
 
-// Enregistrement des routes API
+// 📦 Routes API
 registerRoutes(app);
 
-// Démarrage du serveur
+// 🚀 Démarrage du serveur
 async function startServer() {
-  if (isDev) {
-    log("Mode développement activé", "server");
-    await setupVite(app, httpServer);
-  } else {
-    log("Mode production activé", "server");
-    serveStatic(app);
-  }
+  try {
+    if (isDev) {
+      log("Mode développement activé", "server");
+      await setupVite(app, httpServer);
+    } else {
+      log("Mode production activé", "server");
+      await serveStatic(app); // 👈 Ajout du `await` si `serveStatic` devient async
+    }
 
-  httpServer.listen(PORT, () => {
-    log(`Serveur prêt sur http://localhost:${PORT}`, "server");
-  });
+    httpServer.listen(PORT, () => {
+      log(`Serveur prêt sur http://localhost:${PORT}`, "server");
+    });
+  } catch (err) {
+    console.error("❌ Erreur lors du démarrage du serveur :", err);
+    process.exit(1);
+  }
 }
 
-startServer().catch((err) => {
-  console.error("Erreur lors du démarrage du serveur :", err);
-  process.exit(1);
-});
+startServer();
