@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_ENV=development tsx server/index.ts",
-    "build": "vite build && node esbuild.config.js",
-    "start": "NODE_ENV=production node dist/index.js",
+    "dev": "NODE_ENV=development tsx server/index.ts",        // 🌱 Dev local
+    "start": "NODE_ENV=production tsx server/index.ts",       // 🚀 Pour Render/Prod
+    "build": "echo '✅ Aucun build requis (client via Vite dynamique)'",
     "check": "tsc",
     "db:push": "drizzle-kit push",
     "db:seed": "tsx server/db/seed.ts"
@@ -14,21 +14,22 @@
     "@tanstack/react-query": "^5.0.0",
     "archiver": "^5.3.1",
     "better-sqlite3": "^8.3.0",
+    "compression": "^1.7.4",
     "cors": "^2.8.5",
     "drizzle-orm": "^0.23.4",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
+    "helmet": "^7.0.0",
     "memorystore": "^1.6.6",
+    "nanoid": "^5.0.0",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.1",
     "zod": "^3.22.4",
-    "glob": "^10.3.10",
-    "helmet": "^7.0.0",
-    "compression": "^1.7.4"
+    "glob": "^10.3.10"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.0.0",
