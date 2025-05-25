@@ -55,8 +55,8 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
                   isRTL ? 'flex-row-reverse text-right' : ''
                 }`}
               >
-                {icon}
-                {label}
+                <span className="shrink-0">{icon}</span>
+                <span>{label}</span>
               </button>
             ))}
           </nav>
@@ -78,8 +78,8 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
 
           {/* LANGUE */}
           <div
-            className={`flex justify-center items-center space-x-4 pt-4 border-t border-gray-200 ${
-              isRTL ? 'flex-row-reverse space-x-reverse' : ''
+            className={`flex items-center justify-center pt-4 border-t border-gray-200 ${
+              isRTL ? 'flex-row-reverse gap-x-reverse' : 'gap-x-4'
             }`}
           >
             <button
