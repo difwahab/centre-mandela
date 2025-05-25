@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -19,7 +19,7 @@ const Services = () => {
   const { t } = useTranslation();
   const [activeCategory, setActiveCategory] = useState<ServiceCategory>('all');
 
-  const services: Service[] = [
+  const services: Service[] = useMemo(() => [
     {
       id: 'irm',
       title: t('services.items.irm.title'),
@@ -68,40 +68,43 @@ const Services = () => {
       description: t('services.items.biopsy.description'),
       equipment: t('services.items.biopsy.equipment'),
     },
-  ];
+  ], [t]);
+
+  const categories = useMemo(() => [
+    { key: 'all', label: t('services.categories.all') },
+    { key: 'diagnostic', label: t('services.categories.diagnostic') },
+    { key: 'specialized', label: t('services.categories.specialized') },
+    { key: 'interventional', label: t('services.categories.interventional') },
+  ], [t]);
 
   const filteredServices = activeCategory === 'all'
     ? services
     : services.filter(service => service.category === activeCategory);
 
-  const categories: { key: ServiceCategory; label: string }[] = [
-    { key: 'all', label: t('services.categories.all') },
-    { key: 'diagnostic', label: t('services.categories.diagnostic') },
-    { key: 'specialized', label: t('services.categories.specialized') },
-    { key: 'interventional', label: t('services.categories.interventional') },
-  ];
-
   return (
-    <section id="services" className="py-16 bg-neutral-100">
+    <section id="services" className="py-16 bg-[var(--bg-section)]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold mb-4">
             <span dangerouslySetInnerHTML={{ __html: t('services.title') }} />
           </h2>
-          <div className="w-24 h-1 bg-primary mx-auto mb-6"></div>
-          <p className="text-text-medium max-w-3xl mx-auto">
+          <div className="w-24 h-1 bg-primary mx-auto mb-6" />
+          <p className="text-[var(--text-medium)] max-w-3xl mx-auto">
             {t('services.subtitle')}
           </p>
         </div>
 
         {/* Tabs */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
+        <div className="flex flex-wrap justify-center gap-2 mb-10" role="tablist">
           {categories.map(({ key, label }) => (
             <Button
               key={key}
               variant={activeCategory === key ? 'default' : 'outline'}
               onClick={() => setActiveCategory(key)}
               className="capitalize"
+              aria-pressed={activeCategory === key}
+              aria-label={label}
+              role="tab"
             >
               {label}
             </Button>
@@ -111,28 +114,33 @@ const Services = () => {
         {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredServices.map((service) => (
-            <div key={service.id} className="bg-white rounded-xl shadow-md overflow-hidden">
+            <div
+              key={service.id}
+              className="bg-white rounded-xl shadow-md overflow-hidden transition-transform hover:scale-[1.02]"
+            >
               <div className="h-48 overflow-hidden">
                 <img
                   src={service.image}
                   alt={`${service.title} ${t('services.imageAlt')}`}
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-xl font-semibold">{service.title}</h3>
+                  <h3 className="text-xl font-semibold break-words">{service.title}</h3>
                   <span className="bg-primary/10 text-primary text-xs px-3 py-1 rounded-full">
                     {t(`services.categories.${service.category}`)}
                   </span>
                 </div>
-                <p className="text-text-medium mb-4">{service.description}</p>
+                <p className="text-[var(--text-medium)] mb-4">{service.description}</p>
                 <div className="mb-4">
                   <h4 className="font-medium mb-2">{t('services.equipment')}:</h4>
-                  <p className="text-text-medium text-sm">{service.equipment}</p>
+                  <p className="text-[var(--text-medium)] text-sm">{service.equipment}</p>
                 </div>
                 <Link href="#rendez-vous" className="inline-block text-primary font-medium hover:underline group">
-                  {t('services.appointment')} <ChevronRight className="inline-block h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  {t('services.appointment')}{' '}
+                  <ChevronRight className="inline-block h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
             </div>
