@@ -28,11 +28,14 @@ const requireAuth = (req: Request, res: Response, next: NextFunction) => {
 export async function registerRoutes(app: Express): Promise<Server> {
   // Middleware global
   app.use(cors({
-    origin: "http://localhost:5173", // à adapter selon domaine
+    origin: "http://localhost:5173",
     credentials: true,
   }));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+
+  // ✅ Servir les fichiers statiques depuis "public/"
+  app.use("/public", express.static("public"));
 
   // Sessions
   app.use(session({
@@ -41,7 +44,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     saveUninitialized: false,
     cookie: {
       secure: process.env.NODE_ENV === "production",
-      maxAge: 24 * 60 * 60 * 1000, // 1 jour
+      maxAge: 24 * 60 * 60 * 1000,
     },
     store: new SessionStore({ checkPeriod: 86400000 }),
   }));
@@ -212,9 +215,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
     archive.finalize();
   });
-
-  // --- Static files ---
-  app.use("/uploads", express.static(path.join(__dirname, "../../uploads")));
 
   // --- Retourne le serveur HTTP ---
   const httpServer = createServer(app);
