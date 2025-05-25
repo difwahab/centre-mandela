@@ -1,37 +1,25 @@
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
+  Form, FormControl, FormField, FormItem, FormLabel, FormMessage,
 } from '@/components/ui/form';
 import {
-  MapPin,
-  Phone,
-  Printer,
-  Mail,
-  Facebook,
-  Linkedin,
-  Instagram
+  MapPin, Phone, Printer, Mail, Facebook, Linkedin, Instagram,
 } from 'lucide-react';
 
 const contactFormSchema = z.object({
-  name: z.string().min(2, { message: "Le nom doit contenir au moins 2 caractères" }),
+  name: z.string().min(2, { message: 'Le nom doit contenir au moins 2 caractères' }),
   email: z.string().email({ message: "L'email doit être valide" }),
-  subject: z.string().min(2, { message: "Le sujet doit contenir au moins 2 caractères" }),
-  message: z.string().min(10, { message: "Le message doit contenir au moins 10 caractères" }),
+  subject: z.string().min(2, { message: 'Le sujet doit contenir au moins 2 caractères' }),
+  message: z.string().min(10, { message: 'Le message doit contenir au moins 10 caractères' }),
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
@@ -42,12 +30,7 @@ const Contact = () => {
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
-    defaultValues: {
-      name: '',
-      email: '',
-      subject: '',
-      message: '',
-    },
+    defaultValues: { name: '', email: '', subject: '', message: '' },
   });
 
   const contactMutation = useMutation({
@@ -74,75 +57,53 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-16 bg-white">
+    <section id="contact" className="py-16 bg-background text-foreground">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold mb-4">
             <span dangerouslySetInnerHTML={{ __html: t('contact.title') }} />
           </h2>
-          <div className="w-24 h-1 bg-primary mx-auto mb-6"></div>
-          <p className="text-text-medium max-w-3xl mx-auto">{t('contact.subtitle')}</p>
+          <div className="w-24 h-1 bg-primary mx-auto mb-6" />
+          <p className="text-muted-foreground max-w-3xl mx-auto">
+            {t('contact.subtitle')}
+          </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
+          {/* Formulaire */}
           <div>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="bg-white p-8 rounded-xl shadow-md">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem className="mb-4">
-                      <FormLabel htmlFor="name">{t('contact.form.name')} *</FormLabel>
-                      <FormControl>
-                        <Input id="name" autoComplete="name" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem className="mb-4">
-                      <FormLabel htmlFor="email">{t('contact.form.email')} *</FormLabel>
-                      <FormControl>
-                        <Input id="email" type="email" autoComplete="email" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="subject"
-                  render={({ field }) => (
-                    <FormItem className="mb-4">
-                      <FormLabel htmlFor="subject">{t('contact.form.subject')} *</FormLabel>
-                      <FormControl>
-                        <Input id="subject" autoComplete="on" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="message"
-                  render={({ field }) => (
-                    <FormItem className="mb-6">
-                      <FormLabel htmlFor="message">{t('contact.form.message')} *</FormLabel>
-                      <FormControl>
-                        <Textarea id="message" rows={5} autoComplete="on" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="bg-card p-8 rounded-xl shadow-md"
+              >
+                {['name', 'email', 'subject', 'message'].map((field) => (
+                  <FormField
+                    key={field}
+                    control={form.control}
+                    name={field as keyof ContactFormValues}
+                    render={({ field: f }) => (
+                      <FormItem className="mb-4">
+                        <FormLabel htmlFor={field}>
+                          {t(`contact.form.${field}`)} *
+                        </FormLabel>
+                        <FormControl>
+                          {field === 'message' ? (
+                            <Textarea id={field} rows={5} {...f} autoComplete="on" />
+                          ) : (
+                            <Input
+                              id={field}
+                              type={field === 'email' ? 'email' : 'text'}
+                              autoComplete={field}
+                              {...f}
+                            />
+                          )}
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                ))}
 
                 <Button
                   type="submit"
@@ -159,7 +120,7 @@ const Contact = () => {
 
           {/* Informations de contact */}
           <div>
-            <div className="bg-neutral-100 p-8 rounded-xl h-full">
+            <div className="bg-muted p-8 rounded-xl h-full text-foreground">
               <h3 className="text-xl font-semibold mb-6">{t('contact.info.title')}</h3>
 
               <div className="space-y-6 mb-8">
@@ -183,14 +144,22 @@ const Contact = () => {
   );
 };
 
-const ContactInfo = ({ icon, title, content }: { icon: React.ReactNode; title: string; content: string }) => (
+const ContactInfo = ({
+  icon,
+  title,
+  content,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  content: string;
+}) => (
   <div className="flex items-start">
     <div className="w-10 h-10 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-4 flex-shrink-0">
       {icon}
     </div>
     <div>
       <h4 className="font-medium">{title}</h4>
-      <p className="text-text-medium">{content}</p>
+      <p className="text-muted-foreground">{content}</p>
     </div>
   </div>
 );
