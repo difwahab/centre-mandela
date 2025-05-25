@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -27,6 +27,7 @@ type LoginFormValues = z.infer<typeof loginFormSchema>;
 
 const DoctorPortal = () => {
   const { t } = useTranslation();
+  const [, setLocation] = useLocation();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<LoginFormValues>({
@@ -42,7 +43,7 @@ const DoctorPortal = () => {
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
-      window.location.href = '/espace-medecins/login';
+      setLocation('/espace-medecins/login');
     }, 1500);
   };
 
@@ -69,7 +70,7 @@ const DoctorPortal = () => {
             <div className="space-y-4 mb-6">
               {[1, 2, 3, 4].map((i) => (
                 <div key={i} className="flex items-start">
-                  <Check className="text-primary mt-1 mr-3 h-5 w-5 flex-shrink-0" />
+                  <Check className="text-primary mt-1 mr-3 h-5 w-5 flex-shrink-0" aria-hidden="true" />
                   <div>
                     <h4 className="font-medium">{t(`doctorPortal.features.feature${i}.title`)}</h4>
                     <p className="text-text-medium">{t(`doctorPortal.features.feature${i}.description`)}</p>
@@ -99,7 +100,12 @@ const DoctorPortal = () => {
                     <FormItem>
                       <FormLabel>{t('doctorPortal.login.email')}</FormLabel>
                       <FormControl>
-                        <Input placeholder="docteur@example.com" {...field} />
+                        <Input
+                          placeholder="docteur@example.com"
+                          autoComplete="email"
+                          data-testid="login-email"
+                          {...field}
+                        />
                       </FormControl>
                     </FormItem>
                   )}
@@ -112,7 +118,12 @@ const DoctorPortal = () => {
                     <FormItem>
                       <FormLabel>{t('doctorPortal.login.password')}</FormLabel>
                       <FormControl>
-                        <Input type="password" {...field} />
+                        <Input
+                          type="password"
+                          autoComplete="current-password"
+                          data-testid="login-password"
+                          {...field}
+                        />
                       </FormControl>
                     </FormItem>
                   )}
@@ -128,6 +139,7 @@ const DoctorPortal = () => {
                           <Checkbox
                             checked={field.value}
                             onCheckedChange={field.onChange}
+                            data-testid="login-remember"
                           />
                         </FormControl>
                         <div className="space-y-1 leading-none">
@@ -147,6 +159,7 @@ const DoctorPortal = () => {
                   type="submit"
                   className="w-full transition-all hover:-translate-y-0.5 hover:shadow-md"
                   disabled={isSubmitting}
+                  data-testid="login-submit"
                 >
                   {isSubmitting ? t('doctorPortal.login.loggingIn') : t('doctorPortal.login.submit')}
                 </Button>
@@ -173,7 +186,7 @@ const DoctorPortal = () => {
                   className="text-primary hover:underline text-sm group"
                 >
                   {t('doctorPortal.preview.demo')}
-                  <Check className="inline-block h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" />
+                  <Check className="inline-block h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" aria-hidden="true" />
                 </Link>
               </div>
             </div>
