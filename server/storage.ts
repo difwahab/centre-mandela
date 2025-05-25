@@ -16,6 +16,10 @@ import type {
 } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
+import { hash } from "bcryptjs";
+
+// Types
+export type AppointmentStatus = "pending" | "confirmed" | "cancelled" | "completed";
 
 // Storage interface
 export interface IStorage {
@@ -26,7 +30,7 @@ export interface IStorage {
   getAppointments(): Promise<Appointment[]>;
   getAppointment(id: number): Promise<Appointment | undefined>;
   createAppointment(appointment: InsertAppointment): Promise<Appointment>;
-  updateAppointmentStatus(id: number, status: string): Promise<Appointment | undefined>;
+  updateAppointmentStatus(id: number, status: AppointmentStatus): Promise<Appointment | undefined>;
 
   getContactMessages(): Promise<ContactMessage[]>;
   createContactMessage(message: InsertContactMessage): Promise<ContactMessage>;
@@ -49,12 +53,13 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
+    const now = new Date().toISOString();
     const [user] = await db
       .insert(users)
       .values({
         ...insertUser,
         role: insertUser.role ?? "user",
-        createdAt: new Date().toISOString()
+        createdAt: now
       })
       .returning();
     return user;
@@ -70,12 +75,13 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createAppointment(insertAppointment: InsertAppointment): Promise<Appointment> {
+    const now = new Date().toISOString();
     const [appointment] = await db
       .insert(appointments)
       .values({
         ...insertAppointment,
         status: "pending",
-        createdAt: new Date().toISOString(),
+        createdAt: now,
         email: insertAppointment.email ?? null,
         message: insertAppointment.message ?? null
       })
@@ -83,7 +89,7 @@ export class DatabaseStorage implements IStorage {
     return appointment;
   }
 
-  async updateAppointmentStatus(id: number, status: string): Promise<Appointment | undefined> {
+  async updateAppointmentStatus(id: number, status: AppointmentStatus): Promise<Appointment | undefined> {
     const [updated] = await db
       .update(appointments)
       .set({ status })
@@ -97,11 +103,12 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createContactMessage(insertMessage: InsertContactMessage): Promise<ContactMessage> {
+    const now = new Date().toISOString();
     const [message] = await db
       .insert(contactMessages)
       .values({
         ...insertMessage,
-        createdAt: new Date().toISOString()
+        createdAt: now
       })
       .returning();
     return message;
@@ -120,13 +127,14 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createNewsPost(insertPost: InsertNewsPost): Promise<NewsPost> {
+    const now = new Date().toISOString();
     const [post] = await db
       .insert(newsPosts)
       .values({
         ...insertPost,
         category: insertPost.category ?? "news",
         imageUrl: insertPost.imageUrl ?? null,
-        publishDate: new Date().toISOString()
+        publishDate: now
       })
       .returning();
     return post;
@@ -139,13 +147,17 @@ async function seedDatabase(storage: DatabaseStorage) {
     const admin = await storage.getUserByUsername("drbenameur");
 
     if (!admin) {
-      await storage.createUser({
+      const hashedPassword = await hash("securepassword", 10);
+
+      const adminUser = await storage.createUser({
         username: "drbenameur",
-        password: "securepassword",
+        password: hashedPassword,
         fullName: "Dr. Benameur",
         email: "contact@cabinet-benameur.com",
         role: "admin"
       });
+
+      console.log("👤 Utilisateur admin créé :", adminUser);
 
       await storage.createNewsPost({
         title: "Acquisition d'un nouvel équipement IRM 3 Tesla",
@@ -191,6 +203,6 @@ async function seedDatabase(storage: DatabaseStorage) {
   }
 }
 
+// Export instance + seed
 export const storage = new DatabaseStorage();
-
 seedDatabase(storage).catch(console.error);
