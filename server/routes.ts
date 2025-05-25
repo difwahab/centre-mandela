@@ -11,46 +11,57 @@ import archiver from "archiver";
 import express from "express";
 import cors from "cors";
 
-import { insertAppointmentSchema, insertContactMessageSchema } from "@shared/schema";
+import {
+  insertAppointmentSchema,
+  insertContactMessageSchema,
+} from "@shared/schema";
 import { storage } from "./storage";
 
 const SessionStore = MemoryStore(session);
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // --- Middleware global ---
-  app.use(cors({
-    origin: "http://localhost:5173", // à adapter selon domaine
-    credentials: true,
-  }));
+  app.use(
+    cors({
+      origin: "http://localhost:5173",
+      credentials: true,
+    })
+  );
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  // --- Session setup ---
-  app.use(session({
-    secret: process.env.SESSION_SECRET || "cabinet-benameur-radiologie",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 24 * 60 * 60 * 1000, // 1 jour
-    },
-    store: new SessionStore({ checkPeriod: 86400000 }),
-  }));
+  // --- Sessions ---
+  app.use(
+    session({
+      secret: process.env.SESSION_SECRET || "cabinet-benameur-radiologie",
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 24 * 60 * 60 * 1000,
+      },
+      store: new SessionStore({ checkPeriod: 86400000 }),
+    })
+  );
 
-  // --- Passport setup ---
+  // --- Passport ---
   app.use(passport.initialize());
   app.use(passport.session());
 
-  passport.use(new LocalStrategy(async (username, password, done) => {
-    try {
-      const user = await storage.getUserByUsername(username);
-      if (!user) return done(null, false, { message: "Nom d'utilisateur incorrect" });
-      if (user.password !== password) return done(null, false, { message: "Mot de passe incorrect" });
-      return done(null, user);
-    } catch (err) {
-      return done(err);
-    }
-  }));
+  passport.use(
+    new LocalStrategy(async (username, password, done) => {
+      try {
+        const user = await storage.getUserByUsername(username);
+        if (!user)
+          return done(null, false, { message: "Nom d'utilisateur incorrect" });
+        if (user.password !== password)
+          return done(null, false, { message: "Mot de passe incorrect" });
+        return done(null, user);
+      } catch (err) {
+        return done(err);
+      }
+    })
+  );
 
   passport.serializeUser((user: any, done) => done(null, user.id));
   passport.deserializeUser(async (id: number, done) => {
@@ -62,7 +73,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // --- Auth routes ---
+  // --- Auth Routes ---
   app.post("/api/auth/login", (req, res, next) => {
     passport.authenticate("local", (err: any, user: any, info: any) => {
       if (err) return next(err);
@@ -82,13 +93,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/auth/logout", (req, res) => {
     req.logout((err) => {
-      if (err) return res.status(500).json({ message: "Erreur lors de la déconnexion" });
+      if (err)
+        return res
+          .status(500)
+          .json({ message: "Erreur lors de la déconnexion" });
       res.json({ message: "Déconnexion réussie" });
     });
   });
 
   app.get("/api/auth/user", (req, res) => {
-    if (!req.isAuthenticated?.()) return res.status(401).json({ message: "Non authentifié" });
+    if (!req.isAuthenticated?.())
+      return res.status(401).json({ message: "Non authentifié" });
     const user = req.user as any;
     res.json({
       id: user.id,
@@ -109,31 +124,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (error instanceof z.ZodError) {
         res.status(400).json({ message: error.errors });
       } else {
-        res.status(500).json({ message: "Erreur lors de la création du rendez-vous" });
+        res
+          .status(500)
+          .json({ message: "Erreur lors de la création du rendez-vous" });
       }
     }
   });
 
   app.get("/api/appointments", async (req, res) => {
-    if (!req.isAuthenticated?.()) return res.status(401).json({ message: "Non authentifié" });
+    if (!req.isAuthenticated?.())
+      return res.status(401).json({ message: "Non authentifié" });
     try {
       const appointments = await storage.getAppointments();
       res.json(appointments);
     } catch {
-      res.status(500).json({ message: "Erreur lors de la récupération des rendez-vous" });
+      res
+        .status(500)
+        .json({ message: "Erreur lors de la récupération des rendez-vous" });
     }
   });
 
   app.patch("/api/appointments/:id/status", async (req, res) => {
-    if (!req.isAuthenticated?.()) return res.status(401).json({ message: "Non authentifié" });
+    if (!req.isAuthenticated?.())
+      return res.status(401).json({ message: "Non authentifié" });
+
+    const id = Number(req.params.id);
+    if (isNaN(id)) return res.status(400).json({ message: "ID invalide" });
+
     try {
-      const id = Number(req.params.id);
       const { status } = req.body;
       const updated = await storage.updateAppointmentStatus(id, status);
-      if (!updated) return res.status(404).json({ message: "Rendez-vous non trouvé" });
+      if (!updated)
+        return res.status(404).json({ message: "Rendez-vous non trouvé" });
       res.json(updated);
     } catch {
-      res.status(500).json({ message: "Erreur lors de la mise à jour du statut" });
+      res
+        .status(500)
+        .json({ message: "Erreur lors de la mise à jour du statut" });
     }
   });
 
@@ -159,22 +186,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const posts = await storage.getNewsPosts(category);
       res.json(posts);
     } catch {
-      res.status(500).json({ message: "Erreur lors de la récupération des articles" });
+      res
+        .status(500)
+        .json({ message: "Erreur lors de la récupération des articles" });
     }
   });
 
   app.get("/api/news/:id", async (req, res) => {
+    const id = Number(req.params.id);
+    if (isNaN(id)) return res.status(400).json({ message: "ID invalide" });
+
     try {
-      const id = Number(req.params.id);
       const post = await storage.getNewsPost(id);
-      if (!post) return res.status(404).json({ message: "Article non trouvé" });
+      if (!post)
+        return res.status(404).json({ message: "Article non trouvé" });
       res.json(post);
     } catch {
-      res.status(500).json({ message: "Erreur lors de la récupération de l'article" });
+      res
+        .status(500)
+        .json({ message: "Erreur lors de la récupération de l'article" });
     }
   });
 
-  // --- Download project ZIP ---
+  // --- Download ZIP ---
   app.get("/download-project", (req, res) => {
     const archive = archiver("zip", { zlib: { level: 9 } });
     res.attachment("cabinet-benameur-radiologie.zip");
@@ -189,7 +223,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       "drizzle.config.ts",
       "package.json",
       "tsconfig.json",
-      "vite.config.ts"
+      "vite.config.ts",
     ];
 
     toInclude.forEach((item) => {
@@ -207,10 +241,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     archive.finalize();
   });
 
-  // --- Static uploads route ---
+  // --- Static route for uploads ---
   app.use("/uploads", express.static(path.join(__dirname, "../../uploads")));
 
-  // --- Retourne le serveur HTTP ---
+  // --- 404 fallback ---
+  app.use((req, res) => {
+    res.status(404).json({ message: "Route non trouvée" });
+  });
+
+  // --- Démarrage du serveur HTTP ---
   const httpServer = createServer(app);
   return httpServer;
 }
