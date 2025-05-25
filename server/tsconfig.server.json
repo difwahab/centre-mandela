@@ -1,0 +1,10 @@
+// server/tsconfig.server.json
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2020"],
+    "noEmit": true,
+    "types": ["node"]
+  },
+  "include": ["."]
+}
