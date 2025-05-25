@@ -21,40 +21,31 @@ interface LanguageProviderProps {
 }
 
 export const LanguageProvider = ({ children }: LanguageProviderProps) => {
-  // Get stored language from localStorage or default to French
   const getInitialLanguage = () => {
-    const storedLanguage = localStorage.getItem('language');
-    return storedLanguage || 'fr';
+    return localStorage.getItem('language') || 'fr';
   };
 
   const [language, setLanguageState] = useState<string>(getInitialLanguage);
 
-  // Update language in i18n and localStorage
+  // Set language only once on mount
+  useEffect(() => {
+    i18n.changeLanguage(language);
+    document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
+    document.body.classList.remove('lang-fr', 'lang-ar');
+    document.body.classList.add(`lang-${language}`);
+  }, []); // only on mount
+
   const setLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
     setLanguageState(lang);
     localStorage.setItem('language', lang);
-    
-    // Update document dir attribute for RTL support (Arabic)
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-    
-    // Add language class to body for additional styling if needed
     document.body.classList.remove('lang-fr', 'lang-ar');
     document.body.classList.add(`lang-${lang}`);
   };
 
-  // Initialize language on component mount
-  useEffect(() => {
-    setLanguage(language);
-  }, [language]);
-
-  const value = {
-    language,
-    setLanguage,
-  };
-
   return (
-    <LanguageContext.Provider value={value}>
+    <LanguageContext.Provider value={{ language, setLanguage }}>
       {children}
     </LanguageContext.Provider>
   );
