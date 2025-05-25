@@ -24,10 +24,10 @@ export async function setupVite(app: Express, server: any) {
 
   const vite = await createViteDevServer({
     root: clientRoot,
-    configFile: path.resolve(__dirname, "../vite.config.ts"),
+    configFile: path.resolve(clientRoot, "vite.config.ts"),
     server: {
       middlewareMode: true,
-      hmr: { server },
+      hmr: process.env.NODE_ENV === "production" ? false : { server },
       allowedHosts: "all",
     },
     appType: "custom",
@@ -42,7 +42,7 @@ export async function setupVite(app: Express, server: any) {
 
       let template = await fs.promises.readFile(templatePath, "utf-8");
 
-      // Pour forcer le rechargement du fichier d'entrée
+      // Ajout d'un paramètre cache-busting sur main.tsx
       template = template.replace(
         `src="/src/main.tsx"`,
         `src="/src/main.tsx?v=${nanoid()}"`
@@ -57,19 +57,9 @@ export async function setupVite(app: Express, server: any) {
   });
 }
 
-export async function serveStatic(app: Express) {
-  const distPath = path.resolve(__dirname, "../client/dist");
-
-  if (!fs.existsSync(distPath)) {
-    throw new Error(
-      `Le dossier de build n'existe pas : ${distPath}. Exécute "npm run build" depuis la racine.`
-    );
-  }
-
-  const express = (await import("express")).default;
-  app.use(express.static(distPath));
-
-  app.use("*", (_req, res) => {
-    res.sendFile(path.join(distPath, "index.html"));
-  });
+// ⛔️ En production, on n'utilise plus ce code
+export async function serveStatic(_app: Express) {
+  throw new Error(
+    `serveStatic() est désactivé. Utilisez setupVite() en production pour un rendu sans build.`
+  );
 }
