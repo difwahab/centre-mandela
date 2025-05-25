@@ -2,6 +2,7 @@ import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
 import animate from "tailwindcss-animate";
 import typography from "@tailwindcss/typography";
+import rtl from "tailwindcss-rtl";
 
 const config: Config = {
   content: [
@@ -92,32 +93,33 @@ const config: Config = {
   plugins: [
     animate,
     typography,
+    rtl, // 🟢 Ajout du plugin RTL ici
     plugin(({ addBase, theme }) => {
       addBase({
-        "h1": {
+        h1: {
           fontWeight: "700",
           fontSize: theme("fontSize.4xl"),
           marginBottom: "0.75em",
           color: theme("colors.foreground"),
         },
-        "h2": {
+        h2: {
           fontWeight: "600",
           fontSize: theme("fontSize.3xl"),
           marginBottom: "0.5em",
           color: theme("colors.foreground"),
         },
-        "h3": {
+        h3: {
           fontWeight: "600",
           fontSize: theme("fontSize.2xl"),
           marginBottom: "0.5em",
           color: theme("colors.foreground"),
         },
-        "p": {
+        p: {
           marginBottom: "1em",
           lineHeight: "1.75",
           color: theme("colors.foreground"),
         },
-        "a": {
+        a: {
           color: theme("colors.primary.DEFAULT"),
           textDecoration: "underline",
           fontWeight: "500",
@@ -125,24 +127,24 @@ const config: Config = {
         "a:hover": {
           color: theme("colors.primary.foreground"),
         },
-        "code": {
+        code: {
           backgroundColor: theme("colors.muted.DEFAULT"),
           color: theme("colors.foreground"),
           padding: "0.25rem 0.375rem",
           borderRadius: "0.25rem",
           fontSize: "0.875em",
         },
-        "blockquote": {
+        blockquote: {
           fontStyle: "italic",
           borderLeft: `4px solid ${theme("colors.muted.DEFAULT")}`,
           paddingLeft: "1em",
           color: theme("colors.muted.foreground"),
         },
-        "ul": {
+        ul: {
           listStyleType: "disc",
           paddingLeft: "1.5em",
         },
-        "ol": {
+        ol: {
           listStyleType: "decimal",
           paddingLeft: "1.5em",
         },
