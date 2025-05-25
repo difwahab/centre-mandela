@@ -86,27 +86,76 @@
 
 /* === Utilitaires personnalisés === */
 @layer utilities {
+  /* Backgrounds */
   .bg-background {
     background-color: hsl(var(--background));
-  }
-  .text-foreground {
-    color: hsl(var(--foreground));
-  }
-  .border-border {
-    border-color: hsl(var(--border));
   }
   .bg-card {
     background-color: hsl(var(--card));
   }
-  .text-card-foreground {
-    color: hsl(var(--card-foreground));
-  }
   .bg-muted {
     background-color: hsl(var(--muted));
+  }
+  .bg-popover {
+    background-color: hsl(var(--popover));
+  }
+  .bg-primary {
+    background-color: hsl(var(--primary));
+  }
+  .bg-secondary {
+    background-color: hsl(var(--secondary));
+  }
+  .bg-accent {
+    background-color: hsl(var(--accent));
+  }
+  .bg-destructive {
+    background-color: hsl(var(--destructive));
+  }
+
+  /* Text colors */
+  .text-foreground {
+    color: hsl(var(--foreground));
+  }
+  .text-card-foreground {
+    color: hsl(var(--card-foreground));
   }
   .text-muted-foreground {
     color: hsl(var(--muted-foreground));
   }
+  .text-popover-foreground {
+    color: hsl(var(--popover-foreground));
+  }
+  .text-primary {
+    color: hsl(var(--primary));
+  }
+  .text-primary-foreground {
+    color: hsl(var(--primary-foreground));
+  }
+  .text-secondary {
+    color: hsl(var(--secondary));
+  }
+  .text-secondary-foreground {
+    color: hsl(var(--secondary-foreground));
+  }
+  .text-accent {
+    color: hsl(var(--accent));
+  }
+  .text-accent-foreground {
+    color: hsl(var(--accent-foreground));
+  }
+  .text-destructive {
+    color: hsl(var(--destructive));
+  }
+  .text-destructive-foreground {
+    color: hsl(var(--destructive-foreground));
+  }
+
+  /* Borders */
+  .border-border {
+    border-color: hsl(var(--border));
+  }
+
+  /* Radius */
   .radius {
     border-radius: var(--radius);
   }
