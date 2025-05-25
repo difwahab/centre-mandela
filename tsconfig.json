@@ -1,20 +1,41 @@
 {
   "compilerOptions": {
+    /* Cible moderne pour Node.js ≥14 et les navigateurs récents */
     "target": "ES2020",
+
+    /* Utilisation des modules ES pour Vite, import/export modernes */
     "module": "ESNext",
     "moduleResolution": "Node",
+
+    /* Compatibilité interopérable entre CommonJS et ESModules */
     "esModuleInterop": true,
-    "strict": true,
-    "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
+
+    /* Vérifications strictes recommandées */
+    "strict": true,
     "isolatedModules": true,
+
+    /* Autorise l'importation de fichiers JSON */
+    "resolveJsonModule": true,
+
+    /* Base pour les chemins d'importation absolus */
     "baseUrl": ".",
+
+    /* Alias personnalisés pour le client, le serveur et les fichiers partagés */
     "paths": {
       "@client/*": ["client/src/*"],
       "@server/*": ["server/*"],
       "@shared/*": ["shared/*"]
     },
-    "outDir": "dist"
+
+    /* Répertoire de sortie uniquement utilisé en build, pas nécessaire pour Vite en dev */
+    "outDir": "dist",
+
+    /* Pour éviter d’inclure les types DOM côté serveur */
+    "lib": ["ES2020"],
+
+    /* Optionnelle : éviter les fichiers inutiles dans dist */
+    "skipLibCheck": true
   },
   "include": ["client", "server", "shared"]
 }
