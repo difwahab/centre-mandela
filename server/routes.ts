@@ -8,6 +8,8 @@ import { z } from "zod";
 import * as fs from "fs";
 import * as path from "path";
 import archiver from "archiver";
+import express from "express";
+import cors from "cors";
 
 import { insertAppointmentSchema, insertContactMessageSchema } from "@shared/schema";
 import { storage } from "./storage";
@@ -15,6 +17,14 @@ import { storage } from "./storage";
 const SessionStore = MemoryStore(session);
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // --- Middleware global ---
+  app.use(cors({
+    origin: "http://localhost:5173", // à adapter selon domaine
+    credentials: true,
+  }));
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+
   // --- Session setup ---
   app.use(session({
     secret: process.env.SESSION_SECRET || "cabinet-benameur-radiologie",
@@ -78,7 +88,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.get("/api/auth/user", (req, res) => {
-    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non authentifié" });
+    if (!req.isAuthenticated?.()) return res.status(401).json({ message: "Non authentifié" });
     const user = req.user as any;
     res.json({
       id: user.id,
@@ -105,7 +115,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.get("/api/appointments", async (req, res) => {
-    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non authentifié" });
+    if (!req.isAuthenticated?.()) return res.status(401).json({ message: "Non authentifié" });
     try {
       const appointments = await storage.getAppointments();
       res.json(appointments);
@@ -115,7 +125,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.patch("/api/appointments/:id/status", async (req, res) => {
-    if (!req.isAuthenticated()) return res.status(401).json({ message: "Non authentifié" });
+    if (!req.isAuthenticated?.()) return res.status(401).json({ message: "Non authentifié" });
     try {
       const id = Number(req.params.id);
       const { status } = req.body;
@@ -164,7 +174,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // --- Download complete project as ZIP ---
+  // --- Download project ZIP ---
   app.get("/download-project", (req, res) => {
     const archive = archiver("zip", { zlib: { level: 9 } });
     res.attachment("cabinet-benameur-radiologie.zip");
@@ -196,6 +206,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
     archive.finalize();
   });
+
+  // --- Static uploads route ---
+  app.use("/uploads", express.static(path.join(__dirname, "../../uploads")));
 
   // --- Retourne le serveur HTTP ---
   const httpServer = createServer(app);
