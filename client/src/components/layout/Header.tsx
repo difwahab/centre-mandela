@@ -1,31 +1,29 @@
-import { useTranslation } from 'react-i18next'
-import { useLanguage } from '@/context/LanguageContext'
-import { useState, useEffect } from 'react'
-import { Menu, X } from 'lucide-react'
-import MobileMenu from '@/components/MobileMenu'
-import ThemeToggle from '@/components/ThemeToggle'
+import { useTranslation } from 'react-i18next';
+import { useLanguage } from '@/context/LanguageContext';
+import { useState, useEffect } from 'react';
+import { Menu } from 'lucide-react';
+import MobileMenu from '@/components/MobileMenu';
+import ThemeToggle from '@/components/ThemeToggle';
 
 const Header = () => {
-  const { t } = useTranslation()
-  const { language } = useLanguage()
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const isRTL = language === 'ar'
+  const { t } = useTranslation();
+  const { language } = useLanguage();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const isRTL = language === 'ar';
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    const handleScroll = () => setIsScrolled(window.scrollY > 10);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleClick = (id: string) => {
-    const target = document.getElementById(id)
+    const target = document.getElementById(id);
     if (target) {
-      target.scrollIntoView({ behavior: 'smooth' })
+      target.scrollIntoView({ behavior: 'smooth' });
     }
-  }
+  };
 
   const navItems = [
     { id: 'accueil', label: t('nav.home') },
@@ -34,7 +32,7 @@ const Header = () => {
     { id: 'rendez-vous', label: t('nav.appointment') },
     { id: 'actualites', label: t('nav.news') },
     { id: 'contact', label: t('nav.contact') },
-  ]
+  ];
 
   return (
     <header
@@ -49,7 +47,7 @@ const Header = () => {
           {t('header.title')}
         </a>
 
-        {/* Desktop Nav */}
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-6">
           {navItems.map(({ id, label }) => (
             <button
@@ -66,19 +64,22 @@ const Header = () => {
           >
             {t('nav.doctorPortal')}
           </a>
-
           <ThemeToggle />
         </nav>
 
-        {/* Mobile menu toggle */}
-        <button onClick={() => setMobileOpen(true)} className="md:hidden text-[color:var(--text-dark)]">
+        {/* Mobile Menu Toggle */}
+        <button
+          onClick={() => setMobileOpen(true)}
+          className="md:hidden text-[color:var(--text-dark)]"
+          aria-label={t('nav.openMenu') || 'Open menu'}
+        >
           <Menu size={24} />
         </button>
 
         <MobileMenu isOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
