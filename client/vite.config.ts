@@ -11,6 +11,20 @@ export default defineConfig({
     },
   },
   css: {
-    postcss: path.resolve(__dirname, "postcss.config.cjs"), // ✅ Ajoute ce chemin
+    postcss: path.resolve(__dirname, "postcss.config.cjs"),
+  },
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+        secure: false,
+      },
+      "/uploads": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
   },
 })
