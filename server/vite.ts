@@ -18,7 +18,6 @@ export function log(message: string, source = "express") {
 }
 
 export async function setupVite(app: Express, server: any) {
-  // ✅ Import dynamique pour éviter de casser la build
   const { createServer: createViteDevServer } = await import("vite");
 
   const clientRoot = path.resolve(__dirname, "../client");
@@ -40,8 +39,10 @@ export async function setupVite(app: Express, server: any) {
     try {
       const url = req.originalUrl;
       const templatePath = path.resolve(clientRoot, "index.html");
+
       let template = await fs.promises.readFile(templatePath, "utf-8");
 
+      // Pour forcer le rechargement du fichier d'entrée
       template = template.replace(
         `src="/src/main.tsx"`,
         `src="/src/main.tsx?v=${nanoid()}"`
@@ -49,9 +50,9 @@ export async function setupVite(app: Express, server: any) {
 
       const html = await vite.transformIndexHtml(url, template);
       res.status(200).set({ "Content-Type": "text/html" }).end(html);
-    } catch (e) {
-      vite.ssrFixStacktrace(e as Error);
-      next(e);
+    } catch (error) {
+      vite.ssrFixStacktrace(error as Error);
+      next(error);
     }
   });
 }
@@ -60,12 +61,15 @@ export async function serveStatic(app: Express) {
   const distPath = path.resolve(__dirname, "../client/dist");
 
   if (!fs.existsSync(distPath)) {
-    throw new Error(`Build non trouvé : ${distPath}. Exécute "npm run build"`);
+    throw new Error(
+      `Le dossier de build n'existe pas : ${distPath}. Exécute "npm run build" depuis la racine.`
+    );
   }
 
-  app.use((await import("express")).default.static(distPath));
+  const express = (await import("express")).default;
+  app.use(express.static(distPath));
 
   app.use("*", (_req, res) => {
-    res.sendFile(path.resolve(distPath, "index.html"));
+    res.sendFile(path.join(distPath, "index.html"));
   });
 }
