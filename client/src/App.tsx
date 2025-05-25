@@ -10,6 +10,7 @@ import Footer from "@/components/layout/Footer";
 import BackToTop from "@/components/BackToTop";
 import { useAuth, AuthProvider } from "@/context/AuthContext";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { useThemeEffect } from "@/hooks/useThemeEffect"; // ✅ Ajouté
 import { ComponentType } from "react";
 
 type ProtectedRouteProps = {
@@ -40,6 +41,8 @@ function Router() {
 }
 
 function AppContent() {
+  useThemeEffect(); // ✅ applique la classe "dark" si nécessaire
+
   return (
     <TooltipProvider>
       <div className="bg-background text-foreground min-h-screen flex flex-col">
