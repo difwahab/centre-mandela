@@ -1,9 +1,10 @@
 import express, { type Express } from "express";
 import { createServer } from "http";
-import path from "path";
 import helmet from "helmet";
 import cors from "cors";
 import compression from "compression";
+import path from "path";
+
 import { setupVite, serveStatic, log } from "./vite";
 import { registerRoutes } from "./routes";
 
@@ -13,19 +14,19 @@ const PORT = Number(process.env.PORT) || 3000;
 const app: Express = express();
 const httpServer = createServer(app);
 
-// Middlewares
+// Middlewares globaux
 app.use(helmet());
 app.use(cors());
 app.use(compression());
 app.use(express.json());
 
-// Statics (si tu as des images ou autres fichiers publics)
+// Middleware pour servir les fichiers statiques (ex: /uploads/*.jpg)
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
-// Routes
+// Enregistrement des routes API
 registerRoutes(app);
 
-// Start server
+// Démarrage du serveur
 async function startServer() {
   if (isDev) {
     log("Mode développement activé", "server");
